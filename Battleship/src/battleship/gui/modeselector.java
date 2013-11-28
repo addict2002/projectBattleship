@@ -15,6 +15,6 @@ public class modeselector extends JFrame {
             
             
     public modeselector(){
-        gd = blup;
+        gd = new JLabel();
     }
 }
