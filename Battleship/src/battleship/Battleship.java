@@ -19,6 +19,7 @@ public class Battleship {
         // TODO code application logic here
         //Some Change
         //kljaLSKÖDJLKasd
+        
     }
     
 }
