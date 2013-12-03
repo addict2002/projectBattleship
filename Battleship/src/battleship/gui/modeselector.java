@@ -16,6 +16,8 @@ public class modeselector extends JFrame {
     private JPanel panel;
     private String[] modes = { "Singleplayer", "Multiplayer"};
     private JComboBox mode = new JComboBox(modes);
+
+  
     
     public modeselector(){
         super("Welcome");
@@ -29,9 +31,14 @@ public class modeselector extends JFrame {
         add(choose);
         add(mode);
         setVisible(true);
+
+        
+        
     }
      public static void main(String[] args)
     {
         modeselector g = new modeselector();
     }
+    
+    
 }
