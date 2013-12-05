@@ -5,11 +5,13 @@
 package battleship.gui;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 /**
  *
  * @author Sandro
  */
-public class play extends JFrame {
+public class play extends JFrame implements ActionListener{
     
     private JLabel title = new JLabel("Battleship");
     private JLabel myfieldlabel = new JLabel("Mein Feld");
@@ -65,11 +67,20 @@ public class play extends JFrame {
         buttons[i] = new JButton();
         buttons[i].setBackground(Color.BLUE);
         panel.add(buttons[i]);
+        buttons[i].addActionListener(this);
         
         }
 
             
     }      
+    
+    public void actionPerformed(ActionEvent e){
+            if (e.getSource() instanceof JButton)
+            {
+                ((JButton)e.getSource()).setText("X");
+                
+            }
+        }
     
     public static void main(String[] args)
     {
