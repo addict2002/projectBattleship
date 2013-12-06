@@ -50,6 +50,7 @@ public class shipplacement extends JFrame implements ActionListener{
         group.add(hor);
         leftfield.add(ver);
         leftfield.add(hor);
+        next.setEnabled(false);
         leftfield.add(next);
         
         getContentPane().add(leftfield);
@@ -126,6 +127,7 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                             }
+                    lockButton(); 
                     break;
             //Kreuzer
             case "Kreuzer[4]":
@@ -148,6 +150,7 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                             }
+                    lockButton(); 
                     break;
             //Zerstörer
             case "Zerstörer[3]":
@@ -171,7 +174,8 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                             }
-                    break;
+                lockButton();     
+                break;
             //U-Boot
             case "U-Boot[2]":
             case "U-Boot2[2]":
@@ -195,10 +199,25 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                             }
-                    break;
+                lockButton(); 
+                break;
                 
         }
     }
+    public void lockButton(){
+        if(shipchoose.getItemCount() == 0)
+        {
+            for(int i=0;i<mybutton.length;i++)
+            {
+            mybutton[i].setEnabled(false);
+            next.setEnabled(true);
+
+            }
+        }
+    }
+    
+    
+    
     public boolean isOK(int place, int size ){
         boolean ok = true;
         int p = place;
