@@ -108,7 +108,7 @@ public class shipplacement extends JFrame implements ActionListener{
         switch (shipchoose.getSelectedItem().toString()) {
             //Schlachtschiff
             case "Schlachtschiff[5]": 
-                    if(ver.isSelected()==true)
+                    if(ver.isSelected()==true && isOK(p,5)==true)
                     {
                         for(int i=0; i<5; i++ )
                         {
@@ -117,7 +117,7 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                     }
-                    else if(hor.isSelected()==true)
+                    else if(hor.isSelected()==true && isOK(p,5)==true)
                             {
                         for(int i=0; i<5; i++ )
                         {
@@ -130,7 +130,7 @@ public class shipplacement extends JFrame implements ActionListener{
             //Kreuzer
             case "Kreuzer[4]":
             case "Kreuzer2[4]":
-                    if(ver.isSelected()==true)
+                    if(ver.isSelected()==true && isOK(p,4)==true)
                     {
                         for(int i=0; i<4; i++ )
                         {
@@ -139,7 +139,7 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                     }
-                    else if(hor.isSelected()==true)
+                    else if(hor.isSelected()==true && isOK(p,4)==true)
                             {
                         for(int i=0; i<4; i++ )
                         {
@@ -153,7 +153,7 @@ public class shipplacement extends JFrame implements ActionListener{
             case "Zerstörer[3]":
             case "Zerstörer2[3]":
             case "Zerstörer3[3]":   
-                if(ver.isSelected()==true)
+                if(ver.isSelected()==true && isOK(p,3)==true)
                     {
                         for(int i=0; i<3; i++ )
                         {
@@ -162,7 +162,7 @@ public class shipplacement extends JFrame implements ActionListener{
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
                     }
-                    else if(hor.isSelected()==true)
+                    else if(hor.isSelected()==true && isOK(p,3)==true)
                             {
                         for(int i=0; i<3; i++ )
                         {
@@ -206,29 +206,38 @@ public class shipplacement extends JFrame implements ActionListener{
         String st = "x";
         if(hor.isSelected()){
         
-        
-            for(int i=0; i<s; i++)
-            {
-                if(mybutton[p].getText().equals(st) || p%10>=s)
-                //if(mybutton[p].getText().equals(st) == false || p%10<= s )
+            if((p%10)+s<=10){
+                for(int i=0; i<s; i++)
+                {
+                    if(mybutton[p].getText().equals(st))
+                    //if(mybutton[p].getText().equals(st) == false || p%10<= s )
 
                     {
                     ok = false;
                     }
-                p++;
+                   p++;
+                }
+            
+            
             }
+            else ok= false;
+            
         }
         else if(ver.isSelected())
         {
-            for(int i=0; i<s; i++)
-            {
-                if(mybutton[p].getText().equals(st) || p+(s*10)>=99)
-                //if(mybutton[p].getText().equals(st) == false || p+(s*10)>= 100)
-                    {
-                    ok = false;
-                    }
-                p = p+10;
+            if(p+((s-1)*10)<=99){
+                for(int i=0; i<s; i++)
+                {
+                    if(mybutton[p].getText().equals(st))
+                    //if(mybutton[p].getText().equals(st) == false || p+(s*10)>= 100)
+                       {
+                        ok = false;
+                        }
+                 p = p+10;
+                }
             }
+            else ok = false;
+                
         }
         return(ok);
     }
