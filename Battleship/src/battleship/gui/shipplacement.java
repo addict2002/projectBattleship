@@ -28,7 +28,7 @@ public class shipplacement extends JFrame implements ActionListener{
     private JRadioButton ver = new JRadioButton("vertikal");
     private JRadioButton hor = new JRadioButton("horizontal");
     private ButtonGroup group = new ButtonGroup();
-
+    private int pos;
     
     public shipplacement(){
         super("Battleship");
@@ -75,15 +75,162 @@ public class shipplacement extends JFrame implements ActionListener{
    public void actionPerformed(ActionEvent e){
             if (e.getSource() instanceof JButton)
             {
-                ((JButton)e.getSource()).setText("X");
+                //((JButton)e.getSource()).setText(Int2String((getPosition(((JButton)e.getSource())))));
+                setShip((getPosition(((JButton)e.getSource()))));
                 
             }
         }
-
+   public int getPosition(JButton button)
+   {
+       for(int i=0; i<mybutton.length;i++)
+                {
+                    if(button==mybutton[i])
+                    {
+                        pos = i;
+                    }
+                }
+       return(pos);
+   }
+   
+   public String Int2String(int i)
+   {
+       String t = "";
+       return(t.valueOf(i)); 
+   }
     
     public static void main(String[] args)
     {
         shipplacement p = new shipplacement();
+    }
+    
+    public void setShip(int place){
+    int p = place;
+        switch (shipchoose.getSelectedItem().toString()) {
+            //Schlachtschiff
+            case "Schlachtschiff[5]": 
+                    if(ver.isSelected()==true)
+                    {
+                        for(int i=0; i<5; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+10;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                    }
+                    else if(hor.isSelected()==true)
+                            {
+                        for(int i=0; i<5; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+1;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                            }
+                    break;
+            //Kreuzer
+            case "Kreuzer[4]":
+            case "Kreuzer2[4]":
+                    if(ver.isSelected()==true)
+                    {
+                        for(int i=0; i<4; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+10;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                    }
+                    else if(hor.isSelected()==true)
+                            {
+                        for(int i=0; i<4; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+1;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                            }
+                    break;
+            //Zerstörer
+            case "Zerstörer[3]":
+            case "Zerstörer2[3]":
+            case "Zerstörer3[3]":   
+                if(ver.isSelected()==true)
+                    {
+                        for(int i=0; i<3; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+10;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                    }
+                    else if(hor.isSelected()==true)
+                            {
+                        for(int i=0; i<3; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+1;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                            }
+                    break;
+            //U-Boot
+            case "U-Boot[2]":
+            case "U-Boot2[2]":
+            case "U-Boot3[2]":
+            case "U-Boot4[2]":
+                if(ver.isSelected()==true && isOK(p,2)==true)
+                    {
+                        for(int i=0; i<2; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+10;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                    }
+                else if(hor.isSelected()==true && isOK(p,2)==true)
+                            {
+                        for(int i=0; i<2; i++ )
+                        {
+                            mybutton[p].setText("x");
+                            p = p+1;
+                        }
+                        shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                            }
+                    break;
+                
+        }
+    }
+    public boolean isOK(int place, int size ){
+        boolean ok = true;
+        int p = place;
+        int s = size;
+        String st = "x";
+        if(hor.isSelected()){
+        
+        
+            for(int i=0; i<s; i++)
+            {
+                if(mybutton[p].getText().equals(st) || p%10>=s)
+                //if(mybutton[p].getText().equals(st) == false || p%10<= s )
+
+                    {
+                    ok = false;
+                    }
+                p++;
+            }
+        }
+        else if(ver.isSelected())
+        {
+            for(int i=0; i<s; i++)
+            {
+                if(mybutton[p].getText().equals(st) || p+(s*10)>=99)
+                //if(mybutton[p].getText().equals(st) == false || p+(s*10)>= 100)
+                    {
+                    ok = false;
+                    }
+                p = p+10;
+            }
+        }
+        return(ok);
     }
     
 
