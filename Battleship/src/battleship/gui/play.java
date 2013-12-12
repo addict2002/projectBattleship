@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  */
 public class play extends JFrame implements ActionListener{
     
-    private JLabel title = new JLabel("Battleship");
     private JLabel myfieldlabel = new JLabel("Mein Feld");
     private JLabel opfieldlabel = new JLabel("Gegnerisches Feld");
     private JLabel ships = new JLabel("Meine Schiffe");
@@ -65,7 +64,6 @@ public class play extends JFrame implements ActionListener{
         for(int i=0;i<buttons.length;i++)
         {
         buttons[i] = new JButton();
-        buttons[i].setBackground(Color.BLUE);
         panel.add(buttons[i]);
         buttons[i].addActionListener(this);
         
@@ -86,6 +84,81 @@ public class play extends JFrame implements ActionListener{
     {
         play p = new play();
     }
+    
+    public void lockField(boolean f){
+        if(f==true)
+        {
+            for(int i=0;i<mybutton.length;i++)
+        {
+        mybutton[i].setEnabled(false);
+        
+        }  
+        }
+        else if(f==false){
+            for(int i=0;i<mybutton.length;i++)
+            {
+            opbutton[i].setEnabled(false);
+            }  
+        }
+    }
+     
+    public void unlockField(boolean f){
+        if(f==true)
+        {
+            for(int i=0;i<mybutton.length;i++)
+            {
+            if(!mybutton[i].getText().equals("~") || !mybutton[i].getText().equals("X"))
+                {
+                mybutton[i].setEnabled(true);    
+                }
+            
+        
+            }  
+        }
+        else if(f==false){
+            for(int i=0;i<mybutton.length;i++)
+            {
+                if(!mybutton[i].getText().equals("~") || !mybutton[i].getText().equals("X"))
+                {
+                mybutton[i].setEnabled(true);    
+                }
+            }  
+        }
+    }
+    
+    public void setBomb(int field, boolean h, boolean f){
+         if(f==true)
+         {
+             if(h==true)
+             {
+                 mybutton[field].setText("X");
+                 mybutton[field].setForeground(Color.red);
+             }
+             else if(h==false)
+             {
+                 mybutton[field].setText("~");
+                 mybutton[field].setForeground(Color.blue);
+             }
+         }
+         else if(f==false)
+         {
+             if(h==true)
+             {
+                 opbutton[field].setText("X");
+                 opbutton[field].setForeground(Color.red);
+             }
+             else if(h==false)
+             {
+                 opbutton[field].setText("~");
+                 opbutton[field].setForeground(Color.blue);
+             }
+         }
+         
+     }       
+        
+        
+        
+            
     
 }
 
