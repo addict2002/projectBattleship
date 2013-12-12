@@ -29,6 +29,7 @@ public class shipplacement extends JFrame implements ActionListener{
     private JRadioButton hor = new JRadioButton("horizontal");
     private ButtonGroup group = new ButtonGroup();
     private int pos;
+    private JButton reset = new JButton("zurücksetzen");
     
     public shipplacement(){
         super("Battleship");
@@ -50,8 +51,11 @@ public class shipplacement extends JFrame implements ActionListener{
         group.add(hor);
         leftfield.add(ver);
         leftfield.add(hor);
+        leftfield.add(reset);
+        reset.addActionListener(new ResetEvent());
         next.setEnabled(false);
         leftfield.add(next);
+        next.addActionListener(new StartEvent());
         
         getContentPane().add(leftfield);
         setVisible(true);
@@ -66,7 +70,6 @@ public class shipplacement extends JFrame implements ActionListener{
         for(int i=0;i<buttons.length;i++)
             {
             buttons[i] = new JButton();
-            buttons[i].setBackground(Color.BLUE);
             panel.add(buttons[i]);
             buttons[i].addActionListener(this);
             }
@@ -76,7 +79,6 @@ public class shipplacement extends JFrame implements ActionListener{
    public void actionPerformed(ActionEvent e){
             if (e.getSource() instanceof JButton)
             {
-                //((JButton)e.getSource()).setText(Int2String((getPosition(((JButton)e.getSource())))));
                 setShip((getPosition(((JButton)e.getSource()))));
                 
             }
@@ -215,6 +217,14 @@ public class shipplacement extends JFrame implements ActionListener{
             }
         }
     }
+    public void unlockButton(){
+            for(int i=0;i<mybutton.length;i++)
+            {
+            mybutton[i].setEnabled(true);
+            
+            }
+            next.setEnabled(false);
+    }
     
     
     
@@ -260,6 +270,33 @@ public class shipplacement extends JFrame implements ActionListener{
         }
         return(ok);
     }
+
+class ResetEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        
+        for(int i=0;i<mybutton.length;i++)
+            {
+                mybutton[i].setText("");
+            }
+        
+        shipchoose.removeAllItems();
+        for(String string : ships)
+            {
+            shipchoose.addItem(string);
+            }
+        
+        unlockButton();
+        }
     
+    }
+        
+
+class StartEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        reset.setEnabled(false);
+        next.setText("Wait");
+        
+    }
+} 
 
 }
