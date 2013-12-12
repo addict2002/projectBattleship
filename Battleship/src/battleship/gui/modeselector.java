@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
 /**
  *
  * @author Sandro
@@ -15,21 +16,16 @@ public class modeselector extends JFrame implements ActionListener{
 
     private JPanel panel = new JPanel();
     private JButton start = new JButton("Start");
-
+    private boolean ishost = true;
     
     
     //Join Components
-    private JLabel labmyip = new JLabel("Meine IP Adresse");
-    private JLabel myip = new JLabel("0");
     private JLabel op = new JLabel("IP Adresse des Gegners");
     private JPanel ippanel = new JPanel();
-    private JTextField ip1 = new JTextField("000");
-    private JLabel dot12 = new JLabel(".");
-    private JTextField ip2 = new JTextField("000");
-    private JLabel dot23 = new JLabel(".");
-    private JTextField ip3 = new JTextField("000");
-    private JLabel dot34 = new JLabel(".");
-    private JTextField ip4 = new JTextField("000");
+    private JTextField ip = new JTextField("0.0.0.0");
+    private JButton check = new JButton("check ip");
+    private InetAddress opip;
+    private JLabel checkresult = new JLabel("unchecked");
     
     
     
@@ -46,7 +42,7 @@ public class modeselector extends JFrame implements ActionListener{
     
     public modeselector(){
         super("Welcome");
-        setSize(600,600);
+        setSize(400,200);
         setLocation(300,300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -73,20 +69,19 @@ public class modeselector extends JFrame implements ActionListener{
     
      public void setJoin()
      {
-        panel.setLayout(new GridLayout(2,1)); 
-        ippanel.setLayout(new FlowLayout());
+        panel.setLayout(new GridLayout(0,1)); 
+        ippanel.setLayout(new GridLayout(0,1));
         ippanel.add(op);
-        ippanel.add(ip1);
-        ippanel.add(dot12);
-        ippanel.add(ip2);
-        ippanel.add(dot23);
-        ippanel.add(ip3);
-        ippanel.add(dot34);
-        ippanel.add(ip4);
+        ippanel.add(ip);
+
         
         panel.add(ippanel);
+        panel.add(check);
+        check.addActionListener(new checkEvent());
+        panel.add(checkresult);
         panel.add(start);
-        
+        start.setEnabled(false);
+        start.addActionListener(new joinEvent());
         setVisible(true);
      }
      
@@ -94,9 +89,8 @@ public class modeselector extends JFrame implements ActionListener{
      {
          panel.setLayout(new GridLayout(0,1));
          panel.add(mode);
-         panel.add(labmyip);
-         panel.add(myip);
          panel.add(start);
+         start.addActionListener(new hostEvent());
          setVisible(true);
          
          
@@ -109,13 +103,53 @@ public class modeselector extends JFrame implements ActionListener{
             {
                 setJMenuBar(null);
                 setHost();
+                ishost = true;
                 
             }
             else if(e.getSource()==join)
             {
                 setJMenuBar(null);
-                setJoin();     
+                setJoin(); 
+                ishost = false;
             }
         }
     
+    class joinEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        
+        start.setText("Bitte warten");
+    }
+    } 
+    class hostEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        
+        mode.setEnabled(false);
+        start.setText("Bitte warten");
+        
+    }
+    } 
+    class checkEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+       try{
+            {
+            opip = InetAddress.getByName(ip.getText());
+                if(opip.isReachable(2000) && !opip.isAnyLocalAddress() /*&& !opip.isLoopbackAddress()*/){
+                checkresult.setText("Host erreichbar");
+                start.setEnabled(true);
+                ip.setEditable(false);
+                check.setEnabled(false);
+                }
+                else
+                    checkresult.setText("Host nicht erreichbar");
+            }  
+           } 
+       catch(Exception p){
+           checkresult.setText("Keine gültige IP-Adresse");
+       }
+       finally{
+           
+       } 
+        
+    }
+    }
 }
