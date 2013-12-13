@@ -62,11 +62,11 @@ public class ModeSelector extends JFrame implements ActionListener{
         
         
     }
-     public static void main(String[] args)
+    public static void main(String[] args)
     {
         ModeSelector g = new ModeSelector();
     }   
-     public void setJoin()
+    public void setJoin()
      {
         panel.setLayout(new GridLayout(0,1)); 
         ippanel.setLayout(new GridLayout(0,1));
@@ -82,8 +82,15 @@ public class ModeSelector extends JFrame implements ActionListener{
         start.setEnabled(false);
         start.addActionListener(new joinEvent());
         setVisible(true);
-     }    
-     public void setHost()
+     }
+    public String getIP(){
+        return(ip.getText());
+    }
+    public String getMode(){
+        return(mode.getSelectedItem().toString());
+    }
+            
+    public void setHost()
      {
          panel.setLayout(new GridLayout(0,1));
          panel.add(mode);
@@ -107,11 +114,7 @@ public class ModeSelector extends JFrame implements ActionListener{
                 setJoin(); 
                 ishost = false;
             }
-        }
-    public void closeModeSelector(){
-        System.exit(0);
-    }
-            
+        }     
     class joinEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){
         

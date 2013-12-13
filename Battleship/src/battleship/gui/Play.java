@@ -64,6 +64,7 @@ public class Play extends JFrame implements ActionListener{
         lockField(true);
         lockField(false);
         
+        
         setVisible(true);
         
     }
@@ -78,7 +79,10 @@ public class Play extends JFrame implements ActionListener{
         }
 
             
-    }      
+    }
+    public void fillMyfield(int f){
+        mybutton[f].setText("x");
+    }
     public void actionPerformed(ActionEvent e){
             if (e.getSource() instanceof JButton)
             {

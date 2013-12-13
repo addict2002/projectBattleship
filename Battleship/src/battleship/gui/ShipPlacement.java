@@ -30,6 +30,8 @@ public class ShipPlacement extends JFrame implements ActionListener{
     private ButtonGroup group = new ButtonGroup();
     private int pos;
     private JButton reset = new JButton("zurücksetzen");
+    private GuiGrid Myfield = new GuiGrid();
+    private Play p;
     
     public ShipPlacement(){
         super("Battleship");
@@ -63,8 +65,7 @@ public class ShipPlacement extends JFrame implements ActionListener{
         
         
         
-        }  
-    
+        }   
     public void createPanel(JButton[] buttons, JPanel panel){
         
         for(int i=0;i<buttons.length;i++)
@@ -74,19 +75,18 @@ public class ShipPlacement extends JFrame implements ActionListener{
             buttons[i].addActionListener(this);
             }
         }
-   public void closeShipPlacement(){
-        System.exit(0);
+    public void closeShipPlacement(){
+        setVisible(false);
     } 
-
-   public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e){
             if (e.getSource() instanceof JButton)
             {
                 setShip((getPosition(((JButton)e.getSource()))));
                 
             }
         }
-   public int getPosition(JButton button)
-   {
+    public int getPosition(JButton button)
+    {
        for(int i=0; i<mybutton.length;i++)
                 {
                     if(button==mybutton[i])
@@ -96,18 +96,15 @@ public class ShipPlacement extends JFrame implements ActionListener{
                 }
        return(pos);
    }
-   
-   public String Int2String(int i)
-   {
+    public String Int2String(int i)
+    {
        String t = "";
        return(t.valueOf(i)); 
    }
-    
     public static void main(String[] args)
     {
         ShipPlacement p = new ShipPlacement();
     }
-    
     public void setShip(int place){
     int p = place;
         switch (shipchoose.getSelectedItem().toString()) {
@@ -269,8 +266,28 @@ public class ShipPlacement extends JFrame implements ActionListener{
         }
         return(ok);
     }
-
-class ResetEvent implements ActionListener{
+    public boolean isShip(int f){
+        boolean s;
+        if(mybutton[f].getText().equals("x"))
+            s = true;
+        else
+            s = false;
+    return(s);
+    }
+    public void Gui2Grid(){
+        for(int i = 0; i<100; i++){
+            if(mybutton[i].getText().equals("x")){
+                Myfield.setShip(i, true);
+            }
+        }
+    }
+    public void Grid2Play(){
+        for(int i = 0; i<100; i++){
+            if(Myfield.getShip(i))
+                p.fillMyfield(i);
+        }
+    }
+    class ResetEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
         for(int i=0;i<mybutton.length;i++)
@@ -288,11 +305,15 @@ class ResetEvent implements ActionListener{
         }
     
     }
-class StartEvent implements ActionListener{
+    class StartEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){
         reset.setEnabled(false);
         next.setText("Wait");
-        
+        Gui2Grid();
+        setVisible(false);
+        p = new Play();
+        Grid2Play();
+   
     }
 } 
 
