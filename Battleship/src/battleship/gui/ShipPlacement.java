@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  */
 
 
-public class shipplacement extends JFrame implements ActionListener{
+public class ShipPlacement extends JFrame implements ActionListener{
 
     
     private JPanel myfield = new JPanel();    
@@ -31,7 +31,7 @@ public class shipplacement extends JFrame implements ActionListener{
     private int pos;
     private JButton reset = new JButton("zurücksetzen");
     
-    public shipplacement(){
+    public ShipPlacement(){
         super("Battleship");
         setSize(500,250);
         setLocation(100,100);
@@ -74,7 +74,9 @@ public class shipplacement extends JFrame implements ActionListener{
             buttons[i].addActionListener(this);
             }
         }
-    
+   public void closeShipPlacement(){
+        System.exit(0);
+    } 
 
    public void actionPerformed(ActionEvent e){
             if (e.getSource() instanceof JButton)
@@ -103,7 +105,7 @@ public class shipplacement extends JFrame implements ActionListener{
     
     public static void main(String[] args)
     {
-        shipplacement p = new shipplacement();
+        ShipPlacement p = new ShipPlacement();
     }
     
     public void setShip(int place){
@@ -224,10 +226,7 @@ public class shipplacement extends JFrame implements ActionListener{
             
             }
             next.setEnabled(false);
-    }
-    
-    
-    
+    }  
     public boolean isOK(int place, int size ){
         boolean ok = true;
         int p = place;
@@ -289,8 +288,6 @@ class ResetEvent implements ActionListener{
         }
     
     }
-        
-
 class StartEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){
         reset.setEnabled(false);

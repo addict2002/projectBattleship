@@ -12,7 +12,7 @@ import javax.swing.border.Border;
  *
  * @author Sandro
  */
-public class play extends JFrame implements ActionListener{
+public class Play extends JFrame implements ActionListener{
     
     private JLabel myfieldlabel = new JLabel("Mein Feld");
     private JLabel opfieldlabel = new JLabel("Gegnerisches Feld");
@@ -27,7 +27,7 @@ public class play extends JFrame implements ActionListener{
     private JPanel opfieldall = new JPanel();
     private Border border = BorderFactory.createLineBorder(Color.RED ,5);
     
-    public play(){
+    public Play(){
         super("Battleship");
         setSize(1000,250);
         setLocation(100,100);
@@ -88,7 +88,7 @@ public class play extends JFrame implements ActionListener{
         }
     public static void main(String[] args)
     {
-        play p = new play();
+        Play p = new Play();
     }
     public void lockField(boolean f){
         if(f==true)

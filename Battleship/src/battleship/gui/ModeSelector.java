@@ -12,7 +12,7 @@ import java.net.InetAddress;
  *
  * @author Sandro
  */
-public class modeselector extends JFrame implements ActionListener{
+public class ModeSelector extends JFrame implements ActionListener{
 
     private JPanel panel = new JPanel();
     private JButton start = new JButton("Start");
@@ -40,7 +40,7 @@ public class modeselector extends JFrame implements ActionListener{
     private JMenuItem join = new JMenuItem("Join Game");
   
     
-    public modeselector(){
+    public ModeSelector(){
         super("Welcome");
         setSize(400,200);
         setLocation(300,300);
@@ -64,9 +64,8 @@ public class modeselector extends JFrame implements ActionListener{
     }
      public static void main(String[] args)
     {
-        modeselector g = new modeselector();
-    }
-    
+        ModeSelector g = new ModeSelector();
+    }   
      public void setJoin()
      {
         panel.setLayout(new GridLayout(0,1)); 
@@ -83,8 +82,7 @@ public class modeselector extends JFrame implements ActionListener{
         start.setEnabled(false);
         start.addActionListener(new joinEvent());
         setVisible(true);
-     }
-     
+     }    
      public void setHost()
      {
          panel.setLayout(new GridLayout(0,1));
@@ -95,9 +93,6 @@ public class modeselector extends JFrame implements ActionListener{
          
          
      }
-     
-     
-     
     public void actionPerformed(ActionEvent e){
             if (e.getSource()==host)
             {
@@ -113,7 +108,10 @@ public class modeselector extends JFrame implements ActionListener{
                 ishost = false;
             }
         }
-    
+    public void closeModeSelector(){
+        System.exit(0);
+    }
+            
     class joinEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
