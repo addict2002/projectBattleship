@@ -30,8 +30,7 @@ public class ShipPlacement extends JFrame implements ActionListener{
     private ButtonGroup group = new ButtonGroup();
     private int pos;
     private JButton reset = new JButton("zurücksetzen");
-    private GuiGrid Myfield = new GuiGrid();
-    private Play p;
+
     
     public ShipPlacement(){
         super("Battleship");
@@ -274,19 +273,7 @@ public class ShipPlacement extends JFrame implements ActionListener{
             s = false;
     return(s);
     }
-    public void Gui2Grid(){
-        for(int i = 0; i<100; i++){
-            if(mybutton[i].getText().equals("x")){
-                Myfield.setShip(i, true);
-            }
-        }
-    }
-    public void Grid2Play(){
-        for(int i = 0; i<100; i++){
-            if(Myfield.getShip(i))
-                p.fillMyfield(i);
-        }
-    }
+
     class ResetEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
@@ -309,10 +296,7 @@ public class ShipPlacement extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         reset.setEnabled(false);
         next.setText("Wait");
-        Gui2Grid();
-        setVisible(false);
-        p = new Play();
-        Grid2Play();
+
    
     }
 } 
