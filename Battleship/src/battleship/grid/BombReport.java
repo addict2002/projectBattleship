@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 
-package battleship.oponent;
+package battleship.grid;
 
 /**
- *
+ * Klasse für die Rückmeldung, ob Schiff getroffen, Schiff versenkt, Spiel vorbei
  * @author Andri
  */
-public class ComputerOponent {
-    
+public class BombReport {
+    boolean bombOnShip;
+    boolean shipDestroyed;
+    boolean gameOver;
 }
