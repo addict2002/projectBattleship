@@ -6,27 +6,25 @@
 
 package battleship.oponent;
 
-import battleship.grid.*;
-import battleship.net.Connection;
+import battleship.grid.Bomb;
+import battleship.grid.BombReport;
 
 /**
  *
  * @author Andri
  */
-public class NetOponent implements IOponent{
-    Connection aConnection;
+public class CompOponent implements IOponent{
 
     @Override
     public void sendBomb(Bomb aBomb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public void sendBombReport(BombReport aReport){
-        
-        
+    public void sendBombReport(BombReport aReport) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Bomb receiveBomb() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -37,7 +35,5 @@ public class NetOponent implements IOponent{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    NetOponent(){
-        
-    }
+    
 }

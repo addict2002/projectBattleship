@@ -6,11 +6,15 @@
 
 package battleship.oponent;
 
+import battleship.grid.*;
+
 /**
  *
  * @author Andri
  */
 public interface IOponent {
-    public boolean sendBomb();
-    public boolean receiveBomb();
+    public void sendBomb(Bomb aBomb);
+    public void sendBombReport(BombReport aReport);
+    public Bomb receiveBomb();
+    public BombReport receiveBombReport();
 }
