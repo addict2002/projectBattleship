@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  */
 
 
-public class shipplacement extends JFrame implements ActionListener{
+public class ShipPlacement extends JFrame implements ActionListener{
 
     
     private JPanel myfield = new JPanel();    
@@ -29,8 +29,10 @@ public class shipplacement extends JFrame implements ActionListener{
     private JRadioButton hor = new JRadioButton("horizontal");
     private ButtonGroup group = new ButtonGroup();
     private int pos;
+    private JButton reset = new JButton("zurücksetzen");
+
     
-    public shipplacement(){
+    public ShipPlacement(){
         super("Battleship");
         setSize(500,250);
         setLocation(100,100);
@@ -50,8 +52,11 @@ public class shipplacement extends JFrame implements ActionListener{
         group.add(hor);
         leftfield.add(ver);
         leftfield.add(hor);
+        leftfield.add(reset);
+        reset.addActionListener(new ResetEvent());
         next.setEnabled(false);
         leftfield.add(next);
+        next.addActionListener(new StartEvent());
         
         getContentPane().add(leftfield);
         setVisible(true);
@@ -59,30 +64,28 @@ public class shipplacement extends JFrame implements ActionListener{
         
         
         
-        }  
-    
+        }   
     public void createPanel(JButton[] buttons, JPanel panel){
         
         for(int i=0;i<buttons.length;i++)
             {
             buttons[i] = new JButton();
-            buttons[i].setBackground(Color.BLUE);
             panel.add(buttons[i]);
             buttons[i].addActionListener(this);
             }
         }
-    
-
-   public void actionPerformed(ActionEvent e){
+    public void closeShipPlacement(){
+        setVisible(false);
+    } 
+    public void actionPerformed(ActionEvent e){
             if (e.getSource() instanceof JButton)
             {
-                //((JButton)e.getSource()).setText(Int2String((getPosition(((JButton)e.getSource())))));
                 setShip((getPosition(((JButton)e.getSource()))));
                 
             }
         }
-   public int getPosition(JButton button)
-   {
+    public int getPosition(JButton button)
+    {
        for(int i=0; i<mybutton.length;i++)
                 {
                     if(button==mybutton[i])
@@ -92,18 +95,15 @@ public class shipplacement extends JFrame implements ActionListener{
                 }
        return(pos);
    }
-   
-   public String Int2String(int i)
-   {
+    public String Int2String(int i)
+    {
        String t = "";
        return(t.valueOf(i)); 
    }
-    
     public static void main(String[] args)
     {
-        shipplacement p = new shipplacement();
+        ShipPlacement p = new ShipPlacement();
     }
-    
     public void setShip(int place){
     int p = place;
         switch (shipchoose.getSelectedItem().toString()) {
@@ -215,9 +215,14 @@ public class shipplacement extends JFrame implements ActionListener{
             }
         }
     }
-    
-    
-    
+    public void unlockButton(){
+            for(int i=0;i<mybutton.length;i++)
+            {
+            mybutton[i].setEnabled(true);
+            
+            }
+            next.setEnabled(false);
+    }  
     public boolean isOK(int place, int size ){
         boolean ok = true;
         int p = place;
@@ -260,6 +265,40 @@ public class shipplacement extends JFrame implements ActionListener{
         }
         return(ok);
     }
+    public boolean isShip(int f){
+        boolean s;
+        if(mybutton[f].getText().equals("x"))
+            s = true;
+        else
+            s = false;
+    return(s);
+    }
+
+    class ResetEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        
+        for(int i=0;i<mybutton.length;i++)
+            {
+                mybutton[i].setText("");
+            }
+        
+        shipchoose.removeAllItems();
+        for(String string : ships)
+            {
+            shipchoose.addItem(string);
+            }
+        
+        unlockButton();
+        }
     
+    }
+    class StartEvent implements ActionListener{
+    public void actionPerformed(ActionEvent e){
+        reset.setEnabled(false);
+        next.setText("Wait");
+
+   
+    }
+} 
 
 }
