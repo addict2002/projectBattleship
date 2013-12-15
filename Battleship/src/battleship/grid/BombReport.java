@@ -6,12 +6,14 @@
 
 package battleship.grid;
 
+import java.io.Serializable;
+
 /**
- * Klasse für die Rückmeldung, ob Schiff getroffen, Schiff versenkt, Spiel vorbei
+ *Klasse für die Rückmeldung, ob Schiff getroffen, Schiff versenkt, Spiel vorbei
  * @author Andri
  */
-public class BombReport {
-    boolean bombOnShip;
-    boolean shipDestroyed;
-    boolean gameOver;
+public class BombReport implements Serializable{
+    public boolean bombOnShip;
+    public boolean shipDestroyed;
+    public boolean gameOver;
 }
