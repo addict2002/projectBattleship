@@ -6,10 +6,9 @@
 
 package battleship.net;
 
+import battleship.oponent.*;
 import java.net.*;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -17,8 +16,10 @@ import java.util.logging.Logger;
  */
 
 public class Connection {
-    MailBox mailbox;
+    public NetOponent oponent;
+    protected MailBox mailbox;
     boolean running;
+    boolean online;
     private boolean isServer;
     
     public boolean isIsServer() {
@@ -29,6 +30,7 @@ public class Connection {
     
     public MessageListener messageListener = null;
     public MessageSender messageSender = null;
+    private MessageProcessor messageProcessor=null;
     
     Socket socket;
     InetAddress ip;
@@ -36,6 +38,7 @@ public class Connection {
 
     
     private Connection(int port){
+        online=false;
         this.port=port;
         mailbox=new MailBox();
     }
@@ -46,26 +49,47 @@ public class Connection {
     
     public static Connection openConnection(int port){
         Connection aConnection=new Connection(port);
+        aConnection.messageProcessor=new MessageProcessor(aConnection);
+        aConnection.messageProcessor.start();
+        
         aConnection.isServer=true;
         aConnection.server=new Server(aConnection);
         try{
-            aConnection.server.runServer();
+            aConnection.server.start();
         }catch(Exception ex){
             aConnection.running=false;
         }
         return aConnection;
     }
     
-    public static Connection joinConnection(int port,InetAddress iAddress){
-        Connection aConnection=new Connection(port);
+    public static Connection joinConnection(int port,InetAddress ip){
+        Connection aConnection=new Connection(port,ip);
+        aConnection.messageProcessor=new MessageProcessor(aConnection);
+        aConnection.messageProcessor.start();
         aConnection.isServer=false;
         aConnection.client=new Client(aConnection);
+        try{
+            aConnection.client.start();
+        }catch(Exception ex){
+            aConnection.running=false;
+        }
         return aConnection;
     }
     
+    public void sendMessage(Message message){
+        this.mailbox.sendMessage(message);
+        
+    }
+    
+    
     public synchronized void interrupt(){
+        online=false;
         messageListener.interrupt();
         messageSender.interrupt();
+        messageProcessor.interrupt();
     }
+    
+    
+    
     
 }

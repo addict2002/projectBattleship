@@ -12,17 +12,21 @@ import java.io.*;
  *
  * @author Andri
  */
-public class Message {
-    int type;
-    String textMessage;
-    Object messageObject;
+public class Message implements Serializable{
     
-    Message(){
+    public int type;
+    public String textMessage;
+    
+    public Message(){
+        
+        
     }
-    
-    Message(int type,String textMessage, Object aObject){
+    public Message(String text){
+        this.type=0;
+        this.textMessage=text;
+    }
+    public Message(int type,String textMessage){
         this.textMessage=textMessage;
         this.type=type;
-        this.messageObject=aObject;
-    }
+    }    
 }
