@@ -9,6 +9,9 @@ package battleship.grid;
 /**
  *
  * @author ceeedi
+ * 
+ * 
+ * wird derzeit nicht verwendet!!
  */
 public class Field {
     private Ship ship;
