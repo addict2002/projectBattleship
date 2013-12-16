@@ -6,7 +6,7 @@
 
 package battleship.grid;
 
-import java.util.Iterator;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class Grid {
     private final Field[][] grid;
+    
     private ArrayList<Ship> shipList = new ArrayList<Ship>();
     private final int MAX_SHIP_COUNT = 10;
     
@@ -22,9 +23,13 @@ public class Grid {
         grid = new Field[xSize][ySize];        
     }
     
-    public void addShipToGrid(int direction, int xCord, int yCord, Ship ship){
+    /* change von bruno*/
+    public void addShipToGrid(int direction, FieldPoint point , Ship ship){
         int i;
         int size;
+        
+        int xCord = point.getXCoordiante();
+        int yCord = point.getYCoordinate();
         
         size=ship.getShipSize();
         
@@ -36,19 +41,24 @@ public class Grid {
             //add vertiacal ship
             if(direction==0){
                 for(i=0;i<size;i++){
-                    grid[xCord][yCord].ship=ship;
+                   grid[xCord][yCord].ship=ship;
                     yCord++;
                 }
             }
             //add horizontal ship
             else{
                 for(i=0;i<size;i++){
-                    grid[xCord][yCord].ship=ship;
+                   // grid[xCord][yCord].ship=ship;
                     xCord++;
                 }
             }
+            
+            System.out.println("Ship added to grid, shipSize: " + size);
         }
-        
+        else
+        {
+            System.out.println("Ship not added to grid");
+        }
     }
   
     /*change von bruno */
@@ -58,30 +68,13 @@ public class Grid {
     private boolean addShipToList(Ship ship)
     {
         boolean isShipAdded = false;
-        if(shipList.size() > MAX_SHIP_COUNT)    
+        if(shipList.size() <= MAX_SHIP_COUNT)    
         {
             shipList.add(ship);
             isShipAdded = true;
         }
         return isShipAdded;
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Ship ship = new Ship(4);
-        boolean bombed;
-        
-        Grid myGrid=new Grid(10, 10);
-        myGrid.addShipToGrid(0, 5, 5, ship);
-        if(myGrid.grid[5][5].hasShip()){
-           bombed=myGrid.grid[5][5].ship.bomb();
-        }
-        else{
-            bombed=false;
-        }
-        System.out.println(bombed);
-    }
+
 }
 
