@@ -37,7 +37,6 @@ public class Battleship {
     {
         this.gameEngine = Engine.createHostEnginge();
         this.screenModeSelector.setVisible(false);
-        
         this.screenShipPlacement = new ShipPlacement(this);
     }
     
