@@ -3,17 +3,22 @@
  * and open the template in the editor.
  */
 package battleship.gui;
+import battleship.Battleship;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Sandro
  */
 public class ModeSelector extends JFrame implements ActionListener{
 
+    private Battleship game;
     private JPanel panel = new JPanel();
     private JButton start = new JButton("Start");
     private boolean ishost = true;
@@ -40,7 +45,7 @@ public class ModeSelector extends JFrame implements ActionListener{
     private JMenuItem join = new JMenuItem("Join Game");
   
     
-    public ModeSelector(){
+    public ModeSelector(Battleship currentGame){
         super("Welcome");
         setSize(400,200);
         setLocation(300,300);
@@ -59,13 +64,19 @@ public class ModeSelector extends JFrame implements ActionListener{
         
         setVisible(true);
         
-        
-        
+        /* change von bruno */
+       // this.gameEngine = gameEng;
+        this.game = currentGame;
     }
-    public static void main(String[] args)
+    
+    /* change von bruno */
+    /* klasse brauch kein main, wird jetzt in battleship.Battleship.java aufgerufen*/
+    
+ /*   public static void main(String[] args)
     {
         ModeSelector g = new ModeSelector();
-    }   
+    } 
+ */   
     public void setJoin()
      {
         panel.setLayout(new GridLayout(0,1)); 
@@ -98,7 +109,6 @@ public class ModeSelector extends JFrame implements ActionListener{
          start.addActionListener(new hostEvent());
          setVisible(true);
          
-         
      }
     public void actionPerformed(ActionEvent e){
             if (e.getSource()==host)
@@ -126,6 +136,15 @@ public class ModeSelector extends JFrame implements ActionListener{
         
         mode.setEnabled(false);
         start.setText("Bitte warten");
+        
+        
+        /*change von bruno */
+        try {
+            
+            game.createHostEngine();
+        } catch (IOException ex) {
+            Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     } 
