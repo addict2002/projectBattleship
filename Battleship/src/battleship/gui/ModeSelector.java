@@ -137,15 +137,15 @@ public class ModeSelector extends JFrame implements ActionListener{
         mode.setEnabled(false);
         start.setText("Bitte warten");
         
+        //Verbindung aufbauen ---> engine
         
         /*change von bruno */
-        try {
-            
+        /*try {            
             game.createHostEngine();
         } catch (IOException ex) {
             Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        */
     }
     } 
     class checkEvent implements ActionListener{
