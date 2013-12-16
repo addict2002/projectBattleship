@@ -61,8 +61,8 @@ public class Play extends JFrame implements ActionListener{
         getContentPane().add(midfield);
         getContentPane().add(myfieldall);
         
-        lockField(true);
-        lockField(false);
+        lockFields(true);
+        lockFields(false);
         
         
         setVisible(true);
@@ -94,7 +94,9 @@ public class Play extends JFrame implements ActionListener{
     {
         Play p = new Play();
     }
-    public void lockField(boolean f){
+    
+    //Lock Methoden
+    public void lockFields(boolean f){
         if(f==true)
         {
             for(int i=0;i<mybutton.length;i++)
@@ -110,7 +112,27 @@ public class Play extends JFrame implements ActionListener{
             }  
         }
     }
-    public void unlockField(boolean f){
+    public void lockField(int field, boolean f ){
+        if(f==true){
+            mybutton[field].setEnabled(false);
+                
+            }
+        else if(f==false){
+            opbutton[field].setEnabled(false);
+        }
+            
+    }
+    public void unlockField(int field, boolean f ){
+        if(f==true){
+            mybutton[field].setEnabled(true);
+                
+            }
+        else if(f==false){
+            opbutton[field].setEnabled(true);
+        }
+            
+    }
+    public void unlockFields(boolean f){
         if(f==true)
         {
             for(int i=0;i<mybutton.length;i++)
@@ -133,6 +155,13 @@ public class Play extends JFrame implements ActionListener{
             }  
         }
     }
+    
+    //Schiffe setzen
+    public void setShip(int field){
+        mybutton[field].setText("X");
+    }
+    
+    //Bombem setzen
     public void setBomb(int field, boolean h, boolean f){
          if(f==true)
          {
@@ -162,6 +191,9 @@ public class Play extends JFrame implements ActionListener{
          }
          
      }         
+    
+    
+    //Status Methoden
     public void myturnStatus(){
         status.setText("Du bist dran");
     }
