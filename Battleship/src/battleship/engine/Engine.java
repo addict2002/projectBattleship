@@ -8,6 +8,7 @@ package battleship.engine;
 
 import java.util.Random;
 import battleship.grid.Grid;
+import battleship.gui.ModeSelector;
 import battleship.net.Connection;
 import battleship.net.MessageListener;
 import java.io.IOException;
@@ -21,15 +22,15 @@ import java.util.logging.Logger;
 public class Engine{
    
     private final int STANDART_GAME_PORT = 1212;
-    private boolean isHostCurrentPlayer;
+ //   private boolean isHostCurrentPlayer;
     private boolean isHostGridReady;
     private boolean isOpponentGridReady;
     //current game state
-    private gameState currentGameState;
+    public gameState currentGameState;
     private networkMode netMode;
     private gameMode currentGameMode;
     
-    private Grid ownGrid = new Grid(10, 10);
+    public Grid ownGrid = new Grid(10, 10);
     private Connection conn;
     
     
@@ -51,7 +52,7 @@ public class Engine{
     private Engine(boolean isHostGame, boolean isNetworkGame) throws IOException
     {
         this.currentGameState = gameState.PreparingGame;
-        this.isHostCurrentPlayer = isHostGame; /* old */
+      //  this.isHostCurrentPlayer = isHostGame; /* old */
         
         this.isHostGridReady = false;
         this.isOpponentGridReady = false;
@@ -77,14 +78,25 @@ public class Engine{
     }
     
     
-    public void createHostEnginge()
+    public static Engine createHostEnginge() throws IOException
     {
+        Engine hostEngine = new Engine(true, true);
         
+        return hostEngine;
     }
    
-    public void createClientEnginge()
+    public static Engine createClientEnginge() throws IOException
     {
+        Engine clientEngine = new Engine(false, true);
         
+        return clientEngine;
+    }
+    
+    public static Engine createOfflineEngine() throws IOException
+    {
+        Engine offlineEngine = new Engine(true, false);
+        
+        return offlineEngine;
     }
     //TODO: setShipOnOwnGrid parameter: shipsize, isVertical return isShipSet (true / false)
     public boolean setShipOnOwnGrid(int shipSize, boolean isVertical )
@@ -108,7 +120,7 @@ public class Engine{
         {
             if(currentGameState.equals(gameState.WaitingForOpponent))
             {
-                isHostCurrentPlayer = true;
+               // isHostCurrentPlayer = true;
                 currentGameState = gameState.Play;
                 // inform player that it is his turn
             }
@@ -117,7 +129,7 @@ public class Engine{
         {
             if(currentGameState.equals(gameState.Play))
             {
-                isHostCurrentPlayer = false;
+                //isHostCurrentPlayer = false;
                 currentGameState = gameState.WaitingForOpponent;
             }
         }
@@ -128,10 +140,21 @@ public class Engine{
     {
         if(isHostGridReady && isOpponentGridReady)
         {
-            currentGameState = gameState.Play;
+            
             if(evalBeginningPlayer() > 0)
             {
-                isHostCurrentPlayer = true;
+                //isHostCurrentPlayer = true;
+                currentGameState = gameState.Play;
+                
+                //TODO: inform gui that game is ready and the action is on the current player 
+            }
+            else
+            {
+                currentGameState = gameState.WaitingForOpponent;
+                
+                //TODO: inform gui that game is ready and the action is on the opponent
+               
+                //TODO: inform opponent that the action is on him
             }
         }
     }
@@ -180,7 +203,10 @@ public class Engine{
         return result;
     }
     
-    
+    public void closeModeSelector(ModeSelector modeSelector)
+    {
+        modeSelector.setVisible(false);
+    }
    
     //TODO: finishGame
     public void finishGame()
