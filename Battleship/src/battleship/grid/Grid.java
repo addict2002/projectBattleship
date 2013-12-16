@@ -8,19 +8,24 @@ package battleship.grid;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  * @author ceeedi
  */
 public class Grid {
-    private final Field[][] grid;
+   // private List<Field> grid = new LinkedList<Field>();
+    private Ship[][] grid;// = new int[10][10];
+    
     
     private ArrayList<Ship> shipList = new ArrayList<Ship>();
     private final int MAX_SHIP_COUNT = 10;
     
     public Grid(int xSize, int ySize){
-        grid = new Field[xSize][ySize];        
+        //grid = new Field[xSize][ySize];        
+        grid = new Ship[10][10];
     }
     
     /* change von bruno*/
@@ -31,7 +36,7 @@ public class Grid {
         int xCord = point.getXCoordiante();
         int yCord = point.getYCoordinate();
         
-        size=ship.getShipSize();
+        size = ship.getShipSize();
         
         /*change von bruno */
         /* das shiff wird zuerst in die shipList eingetragen, da wird geprüft das nur die maximale Anzahl schiffe plaziert werden kann */
@@ -41,7 +46,8 @@ public class Grid {
             //add vertiacal ship
             if(direction==0){
                 for(i=0;i<size;i++){
-                   grid[xCord][yCord].ship=ship;
+   //                grid[xCord][yCord].ship=ship;
+                    grid[xCord][yCord] = ship;
                     yCord++;
                 }
             }
@@ -49,6 +55,7 @@ public class Grid {
             else{
                 for(i=0;i<size;i++){
                    // grid[xCord][yCord].ship=ship;
+                    grid[xCord][yCord] = ship;
                     xCord++;
                 }
             }
