@@ -4,6 +4,9 @@
  */
 package battleship.gui;
 
+import battleship.Battleship;
+import battleship.grid.FieldPoint;
+import battleship.grid.Ship;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +20,9 @@ import java.awt.event.ActionListener;
 
 public class ShipPlacement extends JFrame implements ActionListener{
 
-    
+    private Battleship game;
+    private final int POSITION_HORIZONTAL = 1;
+    private final int POSITION_VERTICAL = 0;
     private JPanel myfield = new JPanel();    
     private JButton mybutton[] = new JButton[100]; 
     private JPanel leftfield = new JPanel();
@@ -32,7 +37,7 @@ public class ShipPlacement extends JFrame implements ActionListener{
     private JButton reset = new JButton("zurücksetzen");
 
     
-    public ShipPlacement(){
+    public ShipPlacement(Battleship currentGame){
         super("Battleship");
         setSize(500,250);
         setLocation(100,100);
@@ -57,6 +62,10 @@ public class ShipPlacement extends JFrame implements ActionListener{
         next.setEnabled(false);
         leftfield.add(next);
         next.addActionListener(new StartEvent());
+        
+        /*change von bruno */
+        this.game = currentGame;
+        
         
         getContentPane().add(leftfield);
         setVisible(true);
@@ -100,23 +109,32 @@ public class ShipPlacement extends JFrame implements ActionListener{
        String t = "";
        return(t.valueOf(i)); 
    }
-    public static void main(String[] args)
+    /* change von bruno */
+  /*  public static void main(String[] args)
     {
         ShipPlacement p = new ShipPlacement();
     }
+  */
     public void setShip(int place){
     int p = place;
+    FieldPoint newPoint = FieldPoint.convertIndexToPoint(p);    
+        /* change von bruno nur zum testen*/
+        System.out.println("Place: " + p);
+        System.out.println("Point x: " + newPoint.getXCoordiante() + " y: " + newPoint.getYCoordinate());
+        
         switch (shipchoose.getSelectedItem().toString()) {
             //Schlachtschiff
             case "Schlachtschiff[5]": 
                     if(ver.isSelected()==true && isOK(p,5)==true)
-                    {
+                    {   
                         for(int i=0; i<5; i++ )
                         {
                             mybutton[p].setText("x");
                             p = p+10;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                        Ship newShip = new Ship(5);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_VERTICAL, newPoint, newShip);
                     }
                     else if(hor.isSelected()==true && isOK(p,5)==true)
                             {
@@ -126,7 +144,9 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+1;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
-                            }
+                        Ship newShip = new Ship(5);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_HORIZONTAL, newPoint, newShip);
+                    }
                     lockButton(); 
                     break;
             //Kreuzer
@@ -140,6 +160,8 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+10;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                        Ship newShip = new Ship(4);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_VERTICAL, newPoint, newShip);
                     }
                     else if(hor.isSelected()==true && isOK(p,4)==true)
                             {
@@ -149,7 +171,9 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+1;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
-                            }
+                        Ship newShip = new Ship(4);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_HORIZONTAL, newPoint, newShip);
+                    }
                     lockButton(); 
                     break;
             //Zerstörer
@@ -164,6 +188,8 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+10;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                        Ship newShip = new Ship(3);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_VERTICAL, newPoint, newShip);
                     }
                     else if(hor.isSelected()==true && isOK(p,3)==true)
                             {
@@ -173,7 +199,9 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+1;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
-                            }
+                        Ship newShip = new Ship(3);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_HORIZONTAL, newPoint, newShip);
+                    }
                 lockButton();     
                 break;
             //U-Boot
@@ -189,6 +217,8 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+10;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
+                        Ship newShip = new Ship(2);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_VERTICAL, newPoint, newShip);
                     }
                 else if(hor.isSelected()==true && isOK(p,2)==true)
                             {
@@ -198,12 +228,17 @@ public class ShipPlacement extends JFrame implements ActionListener{
                             p = p+1;
                         }
                         shipchoose.removeItemAt(shipchoose.getSelectedIndex());
-                            }
+                        Ship newShip = new Ship(2);
+                        game.gameEngine.ownGrid.addShipToGrid(POSITION_HORIZONTAL, newPoint, newShip);
+                }
                 lockButton(); 
                 break;
                 
         }
     }
+    
+    
+    
     public void lockButton(){
         if(shipchoose.getItemCount() == 0)
         {
