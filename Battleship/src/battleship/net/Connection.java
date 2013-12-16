@@ -59,7 +59,9 @@ public class Connection {
     public static Connection joinConnection(int port,InetAddress iAddress){
         Connection aConnection=new Connection(port);
         aConnection.isServer=false;
-        aConnection.client=new Client(aConnection);
+      //  aConnection.client=new Client(aConnection); 
+        /* change von bruno -> client erwartet keine connection sondern "werte" da ich keine ahnung habe was mit werde gemeint sind, übergebe ich null*/ 
+        aConnection.client=new Client(null);
         return aConnection;
     }
     
