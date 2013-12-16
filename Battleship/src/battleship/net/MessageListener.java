@@ -48,10 +48,11 @@ public class MessageListener extends Thread {
                 try{
                     message=(Message)mIn.readObject();
                 }catch (ClassNotFoundException ex) {
-                    
+                    /* change von bruno */
+                    /* solte eine ungültige klasse übergeben werden in der konsole ausgeben, für debuging!! */
+                    System.out.println("Error: " + ex.getMessage());
                 }
-                
-                
+
                 if (message == null) {
                     break;
                 }
