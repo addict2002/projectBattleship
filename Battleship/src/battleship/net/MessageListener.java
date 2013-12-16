@@ -8,8 +8,6 @@ package battleship.net;
 
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -18,22 +16,25 @@ import java.util.logging.Logger;
 
 
 public class MessageListener extends Thread {
-    private MailBox mailbox;
-    private Connection aConnection;
-    private ObjectInputStream mIn;
+    private final MailBox mailbox;
+    private final Connection aConnection;
+    private final ObjectInputStream mIn;
     
     public MessageListener(Connection aConnection) throws IOException {
         this.aConnection = aConnection;
         mailbox = aConnection.mailbox;
         Socket socket = aConnection.socket;
-        mIn = new ObjectInputStream(socket.getInputStream());
+        InputStream is=socket.getInputStream();
+        mIn = new ObjectInputStream(is);
     }
     /**
      * Until interrupted, reads messages from the client socket, forwards them
      * to the server dispatcher's queue and notifies the server dispatcher.
      */
+    @Override
     public void run() {
         try {
+            System.out.println("MessageListener started");
             while (!isInterrupted()) {
                 
                 // read from the stream  
@@ -56,13 +57,14 @@ public class MessageListener extends Thread {
                 if (message == null) {
                     break;
                 }
+                System.out.println("receiving message");
                 mailbox.receiveMessage(message);
             }
         } catch (IOException ioex) {
+            System.out.println("Error in MessageListener");
            // Problem reading from socket (communication is broken)
         } 
         // Communication is broken. Interrupt both listener and sender threads
         aConnection.interrupt();
     }
 }
-

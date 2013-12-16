@@ -308,6 +308,14 @@ public class ShipPlacement extends JFrame implements ActionListener{
             s = false;
     return(s);
     }
+    public boolean isVertikal(){
+        boolean isVertikal;
+        if(ver.isSelected()) 
+            isVertikal = true;
+        else
+            isVertikal = false;
+        return(isVertikal);
+    }
 
     class ResetEvent implements ActionListener{
     public void actionPerformed(ActionEvent e){

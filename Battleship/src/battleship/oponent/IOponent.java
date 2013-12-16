@@ -15,6 +15,6 @@ import battleship.grid.*;
 public interface IOponent {
     public void sendBomb(Bomb aBomb);
     public void sendBombReport(BombReport aReport);
-    public Bomb receiveBomb();
-    public BombReport receiveBombReport();
+    public Bomb receiveBomb(Bomb aBomb);
+    public BombReport receiveBombReport(BombReport aReport);
 }

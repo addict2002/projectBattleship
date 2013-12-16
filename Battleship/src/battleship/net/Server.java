@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Andri
  */
 public class Server {
-    public Connection aConnection;
+    Connection aConnection;
 
     ServerSocket serverSocket;
     
@@ -24,7 +24,7 @@ public class Server {
         this.aConnection=aConnection;
     }
 
-    public void runServer() throws IOException {
+    public void start() throws IOException {
         //find free port
         int errCounter = 0;
         while (serverSocket == null && errCounter++ < 800) {
@@ -43,11 +43,11 @@ public class Server {
         System.out.println("Start NetworkService(Multiplikation), Thread: " + Thread.currentThread());
         serverThread.start();
         aConnection.running=true;
-        //reagiert auf Strg+C, der Thread(Parameter) darf nicht gestartet sein
+        //reagiert auf Strg+C
         Runtime.getRuntime().addShutdownHook(
             new Thread() {
                 public void run() {
-                    System.out.println("Strg+C, pool.shutdown");
+                    System.out.println("Strg+C, cancel connection");
                     aConnection.interrupt();
                     
                 }
@@ -60,7 +60,7 @@ public class Server {
 class NetworkService implements Runnable { 
 
     private final ServerSocket serverSocket;
-    private Connection aConnection;
+    private final Connection aConnection;
     
     public NetworkService(Connection aConnection, ServerSocket serverSocket) {
         this.aConnection=aConnection;
@@ -82,17 +82,16 @@ class NetworkService implements Runnable {
                  Dem Handler werden als Parameter übergeben:
                  der ServerSocket und der Socket des anfordernden Clients.
                  */
+                 System.out.println("Server is waiting for client!!!");
                 aConnection.socket = serverSocket.accept();  //warten auf Client-Anforderung
-
+                System.out.println("Connection is opened");
                 //starte den Handler-Thread zur Realisierung der Client-Anforderung
-                
-                
-                
-                aConnection.messageListener=new MessageListener(aConnection);
                 aConnection.messageSender=new MessageSender(aConnection);
-                aConnection.messageListener.start();
+                aConnection.messageListener=new MessageListener(aConnection);
                 aConnection.messageSender.start();
+                aConnection.messageListener.start();
                 
+                aConnection.online=true;
 //            }
         } catch (IOException ex) {
             System.out.println("--- Interrupt NetworkService-run");

@@ -9,6 +9,7 @@ package battleship.oponent;
 import battleship.grid.Bomb;
 import battleship.grid.BombReport;
 
+
 /**
  *
  * @author Andri
@@ -26,12 +27,12 @@ public class CompOponent implements IOponent{
     }
 
     @Override
-    public Bomb receiveBomb() {
+    public Bomb receiveBomb(Bomb aBomb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public BombReport receiveBombReport() {
+    public BombReport receiveBombReport(BombReport aReport) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

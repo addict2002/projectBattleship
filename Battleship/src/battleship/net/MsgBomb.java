@@ -4,16 +4,21 @@
  * and open the template in the editor.
  */
 
-package battleship.grid;
+package battleship.net;
 
+import battleship.grid.*;
 import java.io.Serializable;
 
 /**
- *Klasse für die Rückmeldung, ob Schiff getroffen, Schiff versenkt, Spiel vorbei
+ *
  * @author Andri
  */
-public class BombReport implements Serializable{
-    public boolean bombOnShip;
-    public boolean shipDestroyed;
-    public boolean gameOver;
+public class MsgBomb extends Message implements Serializable {
+    public Bomb bomb;
+    
+    public MsgBomb(Bomb abomb){
+        super(1,"BombMessage");
+        bomb=abomb;
+    }
+    
 }

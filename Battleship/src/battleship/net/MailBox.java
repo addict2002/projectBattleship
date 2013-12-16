@@ -14,18 +14,9 @@ import java.util.ArrayList;
  */
 public class MailBox {
     
-    private ArrayList<Message> outbox;
-    private int outboxSize=0;
-
-    public int getOutboxSize() {
-        return outboxSize;
-    }
-
-    public int getInboxSize() {
-        return inboxSize;
-    }
-    private int inboxSize=0;
-    private ArrayList<Message> inbox;
+    private final ArrayList<Message> outbox;
+    
+    private final ArrayList<Message> inbox;
     
     public MailBox(){
         this.inbox=new ArrayList<>();
@@ -36,27 +27,38 @@ public class MailBox {
     public synchronized Message dequeueInboxMessage(){
         
         if(inbox.size()>0){
-            inboxSize--;
             return inbox.remove(0);
-            
         }
         return null;
     }
-    private synchronized void enqueueInboxMessage(Message aMessage){
-        inboxSize++;
+    public synchronized Message waitForNextInboxMessage()throws InterruptedException{
+        while(inbox.isEmpty()){
+            wait();
+        }
+        return inbox.remove(0);
+    }
+    
+    private synchronized void enqueueInboxMessage(Message aMessage){        
         inbox.add(aMessage);
         notifyAll();
     }
     public synchronized Message dequeueOutboxMessage(){
         
-        if(outbox.size()>0){
-            outboxSize--;
+        if(outbox.size()>0){            
             return outbox.remove(0);
         }
         return null;
     }
-    private synchronized void enqueueOutboxMessage(Message aMessage){
-        outboxSize++;
+    
+    public synchronized Message waitForNextOutboxMessage()throws InterruptedException{
+        while(outbox.isEmpty()){
+            wait();
+        }
+        return outbox.remove(0);
+    }
+    
+    
+    private synchronized void enqueueOutboxMessage(Message aMessage){        
         outbox.add(aMessage);
         notifyAll();
     }
