@@ -39,7 +39,6 @@ public class Server {
             throw new IOException();
         }
         
-        
         Thread serverThread = new Thread(new NetworkService(aConnection, serverSocket));
         System.out.println("Start NetworkService(Multiplikation), Thread: " + Thread.currentThread());
         serverThread.start();
