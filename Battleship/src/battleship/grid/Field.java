@@ -11,18 +11,44 @@ package battleship.grid;
  * @author ceeedi
  */
 public class Field {
-    public Ship ship;
+    private Ship ship;
+    private int xCoordinate;
+    private int yCoordinate;
     
-    public Field(){
-        ship=null;
+   
+    
+    public Field(int x, int y){
+        this.setXCoodinate(x);
+        this.setYCoordinate(y);
+        this.ship=null;
+    }
+    
+    public void setXCoodinate(int x)
+    {
+        this.xCoordinate = x;
+    }
+    
+    public int getXCoordinate()
+    {
+        return this.xCoordinate;
+    }
+    
+    public void setYCoordinate(int y)
+    {
+        this.yCoordinate = y;
+    }
+    
+    public int getYCoordiante()
+    {
+        return this.yCoordinate;
     }
     
     public void addShip(Ship newShip){
-        ship=newShip;
+        this.ship=newShip;
     }
     
     public boolean hasShip(){
-        if(ship!=null){
+        if(this.ship!=null){
             return true;
         }
         return false;
