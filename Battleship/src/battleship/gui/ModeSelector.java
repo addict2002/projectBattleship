@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -37,6 +38,8 @@ public class ModeSelector extends JFrame implements ActionListener{
     //Host Components
     private String[] modes = { "Singleplayer", "Multiplayer"};
     private JComboBox mode = new JComboBox(modes);
+    private InetAddress ownIp;
+    private JLabel ipLabel = new JLabel();
     
     //Menu Components
     private JMenuBar menuBar = new JMenuBar();
@@ -51,6 +54,15 @@ public class ModeSelector extends JFrame implements ActionListener{
         setLocation(300,300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        ownIp = null;
+        try {
+            ownIp = InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            //Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error: " + ex.getMessage());
+        }
+        
+        
         //Menu
         menugame.add(host);
         host.addActionListener(this);
@@ -103,9 +115,11 @@ public class ModeSelector extends JFrame implements ActionListener{
             
     public void setHost()
      {
+         ipLabel.setText("HOST IP: " + ownIp.getHostAddress().toString());
          panel.setLayout(new GridLayout(0,1));
          panel.add(mode);
          panel.add(start);
+         panel.add(ipLabel);
          start.addActionListener(new hostEvent());
          setVisible(true);
          
@@ -135,17 +149,16 @@ public class ModeSelector extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         
         mode.setEnabled(false);
-        start.setText("Bitte warten");
-        
-        //Verbindung aufbauen ---> engine
-        
-        /*change von bruno */
-        /*try {            
-            game.createHostEngine();
+        start.setText("Bitte warten Spiel wird eröffnet");
+        try {
+           
+            //Verbindung aufbauen ---> engine
+            game.gameEngine.createHostEnginge();
+           
         } catch (IOException ex) {
-            Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error: " + ex.getMessage());
         }
-        */
     }
     } 
     class checkEvent implements ActionListener{
