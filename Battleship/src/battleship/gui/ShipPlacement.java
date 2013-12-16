@@ -253,7 +253,7 @@ public class ShipPlacement extends JFrame implements ActionListener{
     public void unlockButton(){
             for(int i=0;i<mybutton.length;i++)
             {
-            mybutton[i].setEnabled(true);
+                mybutton[i].setEnabled(true);
             
             }
             next.setEnabled(false);
@@ -339,6 +339,8 @@ public class ShipPlacement extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         reset.setEnabled(false);
         next.setText("Wait");
+        
+        
 
    
     }
