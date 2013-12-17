@@ -161,7 +161,8 @@ public class ModeSelector extends JFrame implements ActionListener{
         try {
            
             //Verbindung aufbauen ---> engine
-            game.gameEngine.createHostEnginge();
+            //game.gameEngine.createHostEnginge();
+            game.createHostEngine();
            
         } catch (IOException ex) {
             //Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
