@@ -31,7 +31,7 @@ public class Engine{
     private gameMode currentGameMode;
     
     public Grid ownGrid = new Grid(10, 10);
-    private Connection conn;
+    public Connection conn;
     
     
     //defines the possible gamestates
@@ -81,22 +81,22 @@ public class Engine{
     public static Engine createHostEnginge() throws IOException
     {
         Engine hostEngine = new Engine(true, true);
-        
+        hostEngine.currentGameState = gameState.SelectingOpponent;
         return hostEngine;
     }
    
     public static Engine createClientEnginge() throws IOException
     {
         Engine clientEngine = new Engine(false, true);
-        
+        clientEngine.currentGameState = gameState.SelectingOpponent;
         return clientEngine;
     }
     
     public static Engine createOfflineEngine() throws IOException
     {
         Engine offlineEngine = new Engine(true, false);
-        
-        return offlineEngine;
+        offlineEngine.currentGameState = gameState.PreparingGrid; /* maybe... */
+        return offlineEngine; 
     }
     //TODO: setShipOnOwnGrid parameter: shipsize, isVertical return isShipSet (true / false)
     public boolean setShipOnOwnGrid(int shipSize, boolean isVertical )
