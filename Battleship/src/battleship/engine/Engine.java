@@ -10,6 +10,7 @@ import java.util.Random;
 import battleship.grid.Grid;
 import battleship.gui.ModeSelector;
 import battleship.net.Connection;
+import battleship.net.Message;
 import battleship.net.MessageListener;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -90,7 +91,13 @@ public class Engine{
     {
         Engine clientEngine = new Engine(false, true, hostIp);
         clientEngine.currentGameState = gameState.SelectingOpponent;
+        
+        Message openConnectionMessage = new Message();
+        openConnectionMessage.textMessage = "joinGame";
+        clientEngine.conn.messageSender.sendMessageToClient(openConnectionMessage);
         return clientEngine;
+        
+        
     }
     
     public static Engine createOfflineEngine() throws IOException
