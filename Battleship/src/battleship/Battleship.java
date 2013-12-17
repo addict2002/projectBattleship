@@ -36,8 +36,10 @@ public class Battleship {
     public void createHostEngine() throws IOException
     {
         this.gameEngine = Engine.createHostEnginge();
-        this.screenModeSelector.setVisible(false);
-        this.screenShipPlacement = new ShipPlacement(this);
+        //this.gameEngine.conn.messageListener.start();
+        
+        //this.screenModeSelector.setVisible(false);
+        //this.screenShipPlacement = new ShipPlacement(this);
     }
     
     public static void main(String[] args) throws IOException {
@@ -53,5 +55,7 @@ public class Battleship {
        
         
     }
+
+   
     
 }
