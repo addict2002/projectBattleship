@@ -145,9 +145,10 @@ public class ModeSelector extends JFrame implements ActionListener{
         start.setText("Bitte warten");
         try {
             //Verbindung aufbauen --> engine
-            
-            game.gameEngine.createClientEnginge();
-        } catch (IOException ex) {
+            InetAddress hostIp = InetAddress.getByName(ip.getText());
+            game.gameEngine.createClientEnginge(hostIp);
+        } 
+        catch (IOException ex) {
             //Logger.getLogger(ModeSelector.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error: " + ex.getMessage());
         }
