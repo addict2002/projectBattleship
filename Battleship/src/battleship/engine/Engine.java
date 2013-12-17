@@ -12,6 +12,7 @@ import battleship.gui.ModeSelector;
 import battleship.net.Connection;
 import battleship.net.MessageListener;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,7 +50,7 @@ public class Engine{
     }
     
     
-    private Engine(boolean isHostGame, boolean isNetworkGame) throws IOException
+    private Engine(boolean isHostGame, boolean isNetworkGame, InetAddress ip) throws IOException
     {
         this.currentGameState = gameState.PreparingGame;
       //  this.isHostCurrentPlayer = isHostGame; /* old */
@@ -67,7 +68,7 @@ public class Engine{
             }
             else
             {
-                this.conn = Connection.joinConnection(STANDART_GAME_PORT, null);
+                this.conn = Connection.joinConnection(STANDART_GAME_PORT, ip);
                 this.netMode = networkMode.Client;
             }
         }
@@ -80,21 +81,21 @@ public class Engine{
     
     public static Engine createHostEnginge() throws IOException
     {
-        Engine hostEngine = new Engine(true, true);
+        Engine hostEngine = new Engine(true, true, null);
         hostEngine.currentGameState = gameState.SelectingOpponent;
         return hostEngine;
     }
    
-    public static Engine createClientEnginge() throws IOException
+    public static Engine createClientEnginge(InetAddress hostIp) throws IOException
     {
-        Engine clientEngine = new Engine(false, true);
+        Engine clientEngine = new Engine(false, true, hostIp);
         clientEngine.currentGameState = gameState.SelectingOpponent;
         return clientEngine;
     }
     
     public static Engine createOfflineEngine() throws IOException
     {
-        Engine offlineEngine = new Engine(true, false);
+        Engine offlineEngine = new Engine(true, false, null);
         offlineEngine.currentGameState = gameState.PreparingGrid; /* maybe... */
         return offlineEngine; 
     }
