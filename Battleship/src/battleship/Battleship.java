@@ -11,6 +11,7 @@ import battleship.gui.ModeSelector;
 import battleship.gui.Play;
 import battleship.gui.ShipPlacement;
 import java.io.IOException;
+import java.net.InetAddress;
 
 /**
  *
@@ -35,13 +36,18 @@ public class Battleship {
     
     public void createHostEngine() throws IOException
     {
-        this.gameEngine = Engine.createHostEnginge();
+        this.gameEngine = Engine.createHostEngine();
         //this.gameEngine.conn.messageListener.start();
         
         //this.screenModeSelector.setVisible(false);
         //this.screenShipPlacement = new ShipPlacement(this);
     }
     
+    public void createClientEngine(InetAddress ip) throws IOException
+    {
+        this.gameEngine = Engine.createClientEngine(ip);
+    }
+        
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
         //Some Change
@@ -53,7 +59,6 @@ public class Battleship {
        
        //  System.out.println("Current State of the Game: " + gameEngine.currentGameState);
        
-        
     }
 
    
