@@ -16,4 +16,8 @@ public class BombReport implements Serializable{
     public boolean bombOnShip;
     public boolean shipDestroyed;
     public boolean gameOver;
+    public Bomb bomb;
+    public BombReport(Bomb abomb){
+        bomb=abomb;
+    }
 }

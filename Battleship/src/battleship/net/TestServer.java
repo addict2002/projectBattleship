@@ -21,7 +21,7 @@ public class TestServer {
         aConnection.sendMessage(new Message(0,"message from the server"));
         
         aConnection.sendMessage(new MsgBomb(new Bomb(1,2)));
-        BombReport report=new BombReport();
+        BombReport report=new BombReport(new Bomb(5,6));
         report.bombOnShip=true;
         report.shipDestroyed=false;
         report.gameOver=false;

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package battleship.net;
 
 import java.io.*;
@@ -43,7 +42,7 @@ public class Server {
         Thread serverThread = new Thread(new NetworkService(aConnection, serverSocket));
         System.out.println("Start NetworkService(Multiplikation), Thread: " + Thread.currentThread());
         serverThread.start();
-        aConnection.running=true;
+        aConnection.mrunning=true;
         //reagiert auf Strg+C
         Runtime.getRuntime().addShutdownHook(
             new Thread() {
@@ -54,6 +53,16 @@ public class Server {
                 }
             }
         );
+    }
+    
+    public void close(){
+        if(serverSocket!=null){
+            try {
+                serverSocket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
 

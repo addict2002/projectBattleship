@@ -300,13 +300,13 @@ public class ShipPlacement extends JFrame implements ActionListener{
         }
     
     }
-    class StartEvent implements ActionListener{
-    public void actionPerformed(ActionEvent e){
-        reset.setEnabled(false);
-        next.setText("Wait");
+    class StartEvent implements ActionListener {
 
-   
+        public void actionPerformed(ActionEvent e) {
+            reset.setEnabled(false);
+            next.setText("Wait");
+
+        }
     }
-} 
 
 }

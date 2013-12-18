@@ -7,7 +7,10 @@
 package battleship.net;
 
 import battleship.oponent.*;
+import java.io.IOException;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -18,12 +21,19 @@ import java.net.*;
 public class Connection {
     public NetOponent oponent;
     protected MailBox mailbox;
-    boolean running;
+    boolean mrunning;
     boolean online;
-    private boolean isServer;
+    private boolean misServer;
     
-    public boolean isIsServer() {
-        return isServer;
+    
+    public boolean isRunning(){
+        return mrunning;
+    }
+    public boolean isOnline(){
+        return online;
+    }
+    public boolean isServer() {
+        return misServer;
     }
     private Server server;
     private Client client;
@@ -52,12 +62,12 @@ public class Connection {
         aConnection.messageProcessor=new MessageProcessor(aConnection);
         aConnection.messageProcessor.start();
         
-        aConnection.isServer=true;
+        aConnection.misServer=true;
         aConnection.server=new Server(aConnection);
         try{
             aConnection.server.start();
         }catch(Exception ex){
-            aConnection.running=false;
+            aConnection.mrunning=false;
         }
         return aConnection;
     }
@@ -66,27 +76,46 @@ public class Connection {
         Connection aConnection=new Connection(port,ip);
         aConnection.messageProcessor=new MessageProcessor(aConnection);
         aConnection.messageProcessor.start();
-        aConnection.isServer=false;
+        aConnection.misServer=false;
         aConnection.client=new Client(aConnection);
         try{
             aConnection.client.start();
         }catch(Exception ex){
-            aConnection.running=false;
+            aConnection.mrunning=false;
         }
         return aConnection;
     }
     
-    public void sendMessage(Message message){
+    public boolean sendMessage(Message message){
+        if(!online){
+            return false;
+        }
         this.mailbox.sendMessage(message);
-        
+        return true;
     }
     
     
     public synchronized void interrupt(){
         online=false;
-        messageListener.interrupt();
-        messageSender.interrupt();
-        messageProcessor.interrupt();
+        if(messageListener!=null){
+            messageListener.interrupt();
+        }
+        if(messageSender!=null){
+            messageSender.interrupt();
+        }
+        if(messageProcessor!=null){
+            messageProcessor.interrupt();
+        }
+        if(socket!=null){
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(Server!=null){
+            
+        }
     }
     
     

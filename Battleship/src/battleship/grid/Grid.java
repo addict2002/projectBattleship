@@ -8,52 +8,133 @@ package battleship.grid;
 
 /**
  *
- * @author ceeedi
+ * @author Andri
  */
 public class Grid {
-    private final Field[][] grid;
-    
-    public Grid(int xSize, int ySize){
-        grid = new Field[xSize][ySize];        
+    public static int defaultSize=10;
+    public GridField[][] grid;
+    public Grid(){
+        this(defaultSize);
     }
-    
-    public void addShipToGrid(int direction, int xCord, int yCord, Ship ship){
-        int i;
-        int size;
-        
-        size=ship.getShipSize();
-        
-        //add vertiacal ship
-        if(direction==0){
-            for(i=0;i<size;i++){
-                grid[xCord][yCord].ship=ship;
-                yCord++;
-            }
-        }
-        //add horizontal ship
-        else{
-            for(i=0;i<size;i++){
-                grid[xCord][yCord].ship=ship;
-                xCord++;
+    public Grid(int size){
+        grid=new GridField[size][size];
+        for(int y=0;y<size;y++){
+            for(int x=0;x<size;x++){
+                grid[y][x]=new GridField();
             }
         }
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Ship ship = new Ship(4);
-        boolean bombed;
+    
+    public BombReport receiveBomb(Bomb aBomb){
+        BombReport report;
         
-        Grid myGrid=new Grid(10, 10);
-        myGrid.addShipToGrid(0, 5, 5, ship);
-        if(myGrid.grid[5][5].hasShip()){
-           bombed=myGrid.grid[5][5].ship.bomb();
-        }
-        else{
-            bombed=false;
-        }
-        System.out.println(bombed);
+        report=grid[aBomb.y][aBomb.x].receiveBomb(aBomb);
+        return report;
     }
+    
+    public GridField getField(int x, int y){
+        if(y<grid.length && x<grid[0].length){
+            return grid[y][x];
+        }
+        return null;
+    }
+    
+    public boolean placeShip(int x,int y,boolean isHorizontal, Ship aship){
+        int xmax=x;
+        int ymax=y;
+        int checkx=Math.max(0,x-1);
+        int checky=Math.max(0,y-1);
+        int checkxmax=Math.min(xmax+1, grid[0].length-1);
+        int checkymax=Math.min(ymax+1, grid.length-1);
+        
+        //calculate ship length
+        if(isHorizontal){
+            xmax+=aship.shipLength-1;
+            if(xmax>=grid[0].length){
+                return false;
+            }
+            checkxmax=Math.min(xmax+1, grid[0].length-1);
+        }else{
+            ymax+=aship.shipLength-1;
+            if(ymax>=grid.length){
+                return false;
+            }
+            checkymax=Math.min(ymax+1, grid.length-1);
+        }
+        
+        //check is allowed to place ship
+        for(int ix=checkx;ix<=checkxmax;ix++){
+            for(int iy=checky;iy<=checkymax;iy++){
+                GridField afield=getField(ix,iy);
+                if(afield.hasShip){
+                    return false;
+                }
+            }
+        }
+        
+        //place ship
+        for(int ix=x;ix<=xmax;ix++){
+            for(int iy=y;iy<=ymax;iy++){
+                GridField afield=getField(ix,iy);
+                afield.setShip(aship);
+            }
+        }
+        aship.isShipPlaced=true;
+        return true;
+    }
+    
+    public void removeShip(int x,int y){
+        GridField afield=getField(x,y);
+        if(!afield.hasShip){
+            return;
+        }else{
+            afield.hasShip=false;
+            afield.ship.resetShip();
+        }
+        int xmin=x-1;
+        int xmax=x+1;
+        int ymin=y-1;
+        int ymax=y+1;
+        boolean removing=true;
+        boolean horizontal=false;
+        boolean vertical=false;
+        while(removing){
+            removing=false;
+            if(!vertical){
+                afield=getField(xmin,y);
+                if(afield.hasShip){
+                    afield.hasShip=false;
+                    horizontal=true;
+                    removing=true;
+                    xmin--;
+                }
+                afield=getField(xmax,y);
+                if(afield.hasShip){
+                    afield.hasShip=false;
+                    horizontal=true;
+                    removing=true;
+                    xmax++;
+                }
+            }
+            if(!horizontal){
+                afield=getField(x,ymin);
+                if(afield.hasShip){
+                    afield.hasShip=false;
+                    vertical=true;
+                    removing=true;
+                    ymin--;
+                }
+                afield=getField(x,ymax);
+                if(afield.hasShip){
+                    afield.hasShip=false;
+                    vertical=true;
+                    removing=true;
+                    ymax++;
+                }
+            }
+        }
+    }
+    
+    
+    
 }
-

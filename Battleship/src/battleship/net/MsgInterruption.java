@@ -6,16 +6,10 @@
 
 package battleship.net;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Andri
  */
-public class MsgError extends Message implements Serializable {    
-    
-    public MsgError(String strError){
-        super(99,strError);
-    }
+public class MsgInterruption {
     
 }

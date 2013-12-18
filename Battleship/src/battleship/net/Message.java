@@ -25,6 +25,10 @@ public class Message implements Serializable{
         this.type=0;
         this.textMessage=text;
     }
+    public Message(int type){
+        this.type=type;
+        this.textMessage="";
+    }
     public Message(int type,String textMessage){
         this.textMessage=textMessage;
         this.type=type;

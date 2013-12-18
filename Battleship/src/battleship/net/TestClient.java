@@ -31,7 +31,7 @@ public class TestClient {
             aConnection.sendMessage(new Message(0,"message from client"));
             
             aConnection.sendMessage(new MsgBomb(new Bomb(3,4)));
-            BombReport report=new BombReport();
+            BombReport report=new BombReport(new Bomb(3,4));
             report.bombOnShip=true;
             report.shipDestroyed=true;
             report.gameOver=false;

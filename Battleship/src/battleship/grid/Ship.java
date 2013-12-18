@@ -8,34 +8,46 @@ package battleship.grid;
 
 /**
  *
- * @author ceeedi
+ * @author Andri
  */
 public class Ship {
-    private int size;
-    private boolean bombed;
-    
-    public Ship(int size){
-        this.size=size;
-        bombed=false;
+    public int shipLength;
+    public int bombsOnShip=0;
+    public boolean isShipPlaced;
+    public Ship(int shipLength){
+        this.shipLength=shipLength;
+    }
+    public boolean isDestroyed(){
+        if(bombsOnShip>=shipLength){
+            return true;
+        }
+        return false;
+    }
+    public boolean receiveBomb(){
+        bombsOnShip++;
+        if(bombsOnShip>=shipLength){
+            return true;
+        }
+        return false;
     }
     
-    public boolean bomb(){
-        if(size>1){
-            size--;
-            bombed=false;
-         }
-         else{
-            size=0;
-            bombed=true;
-         }
-         return bombed;
+    public void resetShip(){
+        this.isShipPlaced=false;
+        this.bombsOnShip=0;
     }
     
-    public boolean getShipState(){
-        return bombed;
+    public static Ship[] getShipsTemplate(){
+        Ship[] ships=new Ship[8];
+        for(int i=0;i<4;i++){
+            ships[i]=new Ship(2);
+        }
+        for(int i=4;i<7;i++){
+            ships[i]=new Ship(3);
+        }
+        ships[7]=new Ship(4);
+        ships[8]=new Ship(4);
+        ships[9]=new Ship(5);
+        return ships;
     }
     
-    public int getShipSize(){
-        return size;
-    }
 }

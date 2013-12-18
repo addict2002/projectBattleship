@@ -4,18 +4,14 @@
  * and open the template in the editor.
  */
 
-package battleship.net;
-
-import java.io.Serializable;
+package battleship.gui;
 
 /**
  *
  * @author Andri
  */
-public class MsgError extends Message implements Serializable {    
+public interface IView {
+    public void updateView();
     
-    public MsgError(String strError){
-        super(99,strError);
-    }
     
 }

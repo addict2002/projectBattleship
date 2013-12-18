@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package battleship.net;
+
+import battleship.engine.Engine;
+import battleship.engine.actions.EngineAction;
 
 /**
  *
@@ -40,21 +42,24 @@ public class MessageProcessor extends Thread {
 
     private boolean processMessage(Message message) {
         switch (message.type) {
-            case 0:
+            case 0://stanard message
                 //console output
                 System.out.println(message.textMessage);
                 break;
-            case 1:
+            case 1://bomb
                 MsgBomb bombMessage = (MsgBomb) message;
                 System.out.println("You are bombed on field: X: " + bombMessage.bomb.x + " |  Y: " + bombMessage.bomb.y);
+                mConnection.oponent.bombFromOponent(bombMessage.bomb);
                 break;
-            case 2:
+            case 2://bombreport
                 MsgBombReport reportMessage = (MsgBombReport) message;
                 System.out.println("You hit your enemy with the bomb: bombOnship:" + reportMessage.bombReport.bombOnShip + " |  Ship is destroyed: " + reportMessage.bombReport.shipDestroyed + " |  game over: " + reportMessage.bombReport.gameOver);
-                mConnection.oponent.receiveBombReport(reportMessage.bombReport);
+                mConnection.oponent.bombReportFromOponent(reportMessage.bombReport);
                 break;
+            case 3://ready message
+                mConnection.oponent.readyFromOponent();
             case 99:
-
+                Engine.getEngine().pushAction(new EngineAction(99,message.textMessage));
                 break;
             default:
                 MsgError errorMessage = (MsgError) message;

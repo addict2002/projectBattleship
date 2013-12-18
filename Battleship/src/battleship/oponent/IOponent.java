@@ -13,8 +13,13 @@ import battleship.grid.*;
  * @author Andri
  */
 public interface IOponent {
-    public void sendBomb(Bomb aBomb);
-    public void sendBombReport(BombReport aReport);
-    public Bomb receiveBomb(Bomb aBomb);
-    public BombReport receiveBombReport(BombReport aReport);
+    public void init();
+    public boolean sendBombToOponent(Bomb aBomb);
+    public boolean sendBombReportToOponent(BombReport aReport);
+    public boolean sendReadyToOponent();
+    
+    public void bombFromOponent(Bomb aBomb);
+    public void bombReportFromOponent(BombReport aReport);
+    public void readyFromOponent();
+    
 }

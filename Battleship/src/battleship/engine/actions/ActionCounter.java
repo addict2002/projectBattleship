@@ -4,18 +4,17 @@
  * and open the template in the editor.
  */
 
-package battleship.net;
-
-import java.io.Serializable;
+package battleship.engine.actions;
 
 /**
  *
  * @author Andri
  */
-public class MsgError extends Message implements Serializable {    
-    
-    public MsgError(String strError){
-        super(99,strError);
+public class ActionCounter{
+    int counter=0;
+    public int getCounter(){
+        return counter;
     }
+
     
 }

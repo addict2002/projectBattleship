@@ -6,7 +6,8 @@
 
 package battleship.oponent;
 
-import battleship.net.*;
+import battleship.engine.*;
+import battleship.engine.actions.*;
 import battleship.grid.*;
 import battleship.net.*;
 
@@ -18,10 +19,11 @@ import battleship.net.*;
 public class NetOponent implements IOponent{
     Connection aConnection;
     
-    NetOponent(Connection aConnection){
+    public NetOponent(Connection aConnection){
         this.aConnection=aConnection;        
     }
     
+    @Override
     public void init(){
         this.aConnection.oponent=this;
         
@@ -30,24 +32,38 @@ public class NetOponent implements IOponent{
     
     
     @Override
-    public void sendBomb(Bomb aBomb) {
-        this.aConnection.sendMessage(new MsgBomb(aBomb));
+    public boolean sendBombToOponent(Bomb aBomb) {
+        return this.aConnection.sendMessage(new MsgBomb(aBomb));
     }
     
     @Override
-    public void sendBombReport(BombReport aReport){
+    public boolean sendBombReportToOponent(BombReport aReport){
+        return this.aConnection.sendMessage(new MsgBombReport(aReport));
+    }
+    
+    @Override
+    public void bombFromOponent(Bomb aBomb) {
+        Engine engine = Engine.getEngine();
+        engine.pushAction(new ActReceiveBomb(aBomb));
         
-        this.aConnection.sendMessage(new MsgBombReport(aReport));
-    }
-    
-    @Override
-    public Bomb receiveBomb(Bomb aBomb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public BombReport receiveBombReport(BombReport aReport) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void bombReportFromOponent(BombReport aReport) {
+        Engine engine = Engine.getEngine();
+        engine.pushAction(new ActReceiveBombReport(aReport));
+    }
+
+    @Override
+    public boolean sendReadyToOponent() {
+        
+        return this.aConnection.sendMessage(new Message(3));
+    }
+
+    @Override
+    public void readyFromOponent() {
+        Engine engine = Engine.getEngine();
+        engine.pushAction(new EngineAction(1));
     }
     
     

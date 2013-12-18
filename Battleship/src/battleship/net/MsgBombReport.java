@@ -6,7 +6,7 @@
 
 package battleship.net;
 
-import battleship.grid.BombReport;
+import battleship.grid.*;
 import java.io.Serializable;
 
 /**
