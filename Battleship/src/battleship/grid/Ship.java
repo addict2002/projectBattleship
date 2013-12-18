@@ -37,7 +37,7 @@ public class Ship {
     }
     
     public static Ship[] getShipsTemplate(){
-        Ship[] ships=new Ship[8];
+        Ship[] ships=new Ship[10];
         for(int i=0;i<4;i++){
             ships[i]=new Ship(2);
         }

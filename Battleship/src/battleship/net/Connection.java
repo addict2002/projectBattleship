@@ -113,8 +113,8 @@ public class Connection {
                 Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if(Server!=null){
-            
+        if(server!=null){
+            server.close();
         }
     }
     
