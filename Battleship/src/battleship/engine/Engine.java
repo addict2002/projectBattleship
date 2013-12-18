@@ -6,14 +6,17 @@
 
 package battleship.engine;
 
+import battleship.grid.Field;
 import java.util.Random;
 import battleship.grid.Grid;
+import battleship.grid.Ship;
 import battleship.gui.ModeSelector;
 import battleship.net.Connection;
 import battleship.net.Message;
 import battleship.net.MessageListener;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -179,11 +182,28 @@ public class Engine{
         return retVal;
     }
     
-    //TODO: shoot parameter: field (int 1 - 99); return isShipHit (true/false)
-    public boolean shoot(int field)
+    //reciveShot returns state --> 0 = no hit; 1 = ship hit; 2 = ship sunk; 3 = all ships are shunk; 
+    public int handleRecivingShot(Field field)
     {
-        boolean result = false;
+        int defaultResultState = 0;
         
+        if(this.ownGrid.isShipOnField(field))
+        {
+            if(this.ownGrid.hitShip(field))
+            {
+                Iterator<Ship> shipListIterator = this.ownGrid.shipList.iterator();
+                while(shipListIterator.hasNext())
+                {
+                    Ship tempShip = shipListIterator.next();
+                    if(tempShip.getShipState())
+                    {
+                        return 2;
+                    }
+                }
+                return 3;
+            }
+            return 1;
+        }
         /*
         give the shoot to the grid
         if it is a hit --> return true
@@ -192,10 +212,20 @@ public class Engine{
     
         //call set bomb
         
-        return result;
+        return defaultResultState;
     }
     
-    
+    //sendShot return state --> 0 = no hit; 1 = ship hit; 2 = ship bombed; 3 = all ships are bombed;
+    public int sendShot(Field field) throws IOException
+    {
+        int state = 0;
+        Message shotMessage = new Message();
+        shotMessage.textMessage = "Shoot on Field: x: " + field.getXCoordinate() + "; y: " + field.getYCoordiante() + ";";
+        shotMessage.type = 2;
+        this.conn.messageSender.sendMessageToClient(shotMessage);
+        
+        return state;
+    }
     
     //TODO: setBomb für anzeige auf eignenm Grid (fiel, isHit, isOpponent)
     public boolean setBomb(int field, boolean isOpponent, boolean isHit)
