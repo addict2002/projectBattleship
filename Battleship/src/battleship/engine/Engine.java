@@ -79,25 +79,18 @@ public class Engine{
         }
     }
     
-    
-    public static Engine createHostEnginge() throws IOException
+    public static Engine createHostEngine() throws IOException
     {
         Engine hostEngine = new Engine(true, true, null);
         hostEngine.currentGameState = gameState.SelectingOpponent;
         return hostEngine;
     }
    
-    public static Engine createClientEnginge(InetAddress hostIp) throws IOException
+    public static Engine createClientEngine(InetAddress hostIp) throws IOException
     {
         Engine clientEngine = new Engine(false, true, hostIp);
-        clientEngine.currentGameState = gameState.SelectingOpponent;
-        
-        Message openConnectionMessage = new Message();
-        openConnectionMessage.textMessage = "joinGame";
-        clientEngine.conn.messageSender.sendMessageToClient(openConnectionMessage);
+        clientEngine.currentGameState = gameState.SelectingOpponent;       
         return clientEngine;
-        
-        
     }
     
     public static Engine createOfflineEngine() throws IOException
@@ -106,6 +99,19 @@ public class Engine{
         offlineEngine.currentGameState = gameState.PreparingGrid; /* maybe... */
         return offlineEngine; 
     }
+    
+    //start connection to host 
+    public void connectToHost() throws IOException
+    {
+        if(this.currentGameState == gameState.SelectingOpponent)
+        {
+            Message openConnectionMessage = new Message();
+            openConnectionMessage.textMessage = "msg:joinGame";
+            openConnectionMessage.type = 3;
+            this.conn.messageSender.sendMessageToClient(openConnectionMessage);
+        }
+    }
+    
     //TODO: setShipOnOwnGrid parameter: shipsize, isVertical return isShipSet (true / false)
     public boolean setShipOnOwnGrid(int shipSize, boolean isVertical )
     {
@@ -115,9 +121,6 @@ public class Engine{
         
         return false;
     } 
-    
-    
-    
     //TODO: setCurrentGameState (use lockfield(false) from GUI to lock opponent)
     
     
