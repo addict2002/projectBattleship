@@ -12,9 +12,18 @@ package battleship.engine.actions;
  */
 public class ActionCounter{
     int counter=0;
+    String name="";
+    public ActionCounter(){
+        
+    }
+    public ActionCounter(String aName){
+        name=aName;
+    }
     public int getCounter(){
         return counter;
     }
-
+    public String getName(){
+        return name;
+    }
     
 }

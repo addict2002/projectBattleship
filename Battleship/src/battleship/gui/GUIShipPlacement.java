@@ -8,10 +8,10 @@ package battleship.gui;
 import battleship.engine.*;
 import battleship.engine.actions.*;
 import battleship.grid.*;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.*;
 
@@ -22,18 +22,18 @@ import javax.swing.*;
 public class GUIShipPlacement extends JFrame implements ActionListener, IView {
 
     Game game;//nur lesen
-    public int guiGameState = 0;
-    private JPanel myfield = new JPanel();
+    public int guiGameState = 1;
+    private JPanel leftPanel = new JPanel();
     private JButton gridfields[][];
 
-    private JPanel leftfield = new JPanel();
+    private JPanel rightPanel = new JPanel();
 
     private JRadioButton ver = new JRadioButton("vertikal");
     private JRadioButton hor = new JRadioButton("horizontal");
     private ButtonGroup group = new ButtonGroup();
 
-    private JButton reset = new JButton("zurücksetzen");
-    private JButton next = new JButton("Weiter");
+    private JButton btnReset = new JButton("zurücksetzen");
+    private JButton btnNext = new JButton("Weiter");
 
     private Vector ships;
     private JComboBox shipchoose;
@@ -41,7 +41,7 @@ public class GUIShipPlacement extends JFrame implements ActionListener, IView {
     private JLabel lblError;
 
     public GUIShipPlacement() {
-        super("Battleship Initialization");
+        super("Battleship Ship Placement");
         setSize(500, 250);
         setLocation(100, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,36 +54,36 @@ public class GUIShipPlacement extends JFrame implements ActionListener, IView {
         game = Engine.getEngine().game;
         if (game.getGameState() != guiGameState) {
             setVisible(false);
-            return;
         }
         int xSize = game.player.grid.grid[0].length;
         int ySize = game.player.grid.grid.length;
         gridfields = new JButton[xSize][ySize];
 
-        myfield.setLayout(new GridLayout(xSize, ySize));
-        createPanel(gridfields, myfield);
-        getContentPane().add(myfield);
+        leftPanel.setLayout(new GridLayout(xSize, ySize));
+        createPanel(gridfields, leftPanel);
+        getContentPane().add(leftPanel);
 
         ships = getShipsToPlace(game.player.ships);
         shipchoose = new JComboBox(ships);
 
-        leftfield.setLayout(new GridLayout(0, 1));
-        leftfield.add(new JLabel("Schiffe:"));
-        leftfield.add(shipchoose);
+        rightPanel.setLayout(new GridLayout(0, 1));
+        rightPanel.add(new JLabel("Schiffe:"));
+        rightPanel.add(shipchoose);
 
         group.add(ver);
         group.add(hor);
-        leftfield.add(ver);
-        leftfield.add(hor);
+        rightPanel.add(ver);
+        rightPanel.add(hor);
 
-        leftfield.add(reset);
-        reset.addActionListener(new ResetEvent());
-        next.setEnabled(false);
-        leftfield.add(next);
-        next.addActionListener(new StartEvent());
+        rightPanel.add(btnReset);
+        btnReset.addActionListener(new ResetEvent());
+        btnNext.setEnabled(false);
+        rightPanel.add(btnNext);
+        btnNext.addActionListener(new StartEvent());
 
-        getContentPane().add(leftfield);
-        setVisible(true);
+        getContentPane().add(rightPanel);
+        
+        
         updateView();
     }
 
@@ -171,15 +171,18 @@ public class GUIShipPlacement extends JFrame implements ActionListener, IView {
             setVisible(false);
             return;
         }
+        setVisible(true);
+        
         int xSize = game.player.grid.grid[0].length;
         int ySize = game.player.grid.grid.length;
         for (int y = 0; y < ySize; y++) {
             for (int x = 0; x < xSize; x++) {
                 GridField afield = game.player.grid.getField(x, y);
                 if (afield.hasShip) {
-                    gridfields[y][x].setText("X");
+                    gridfields[y][x].setBackground(Color.green);
+                    
                 } else {
-                    gridfields[y][x].setText("");
+                    gridfields[y][x].setBackground(null);
                 }
             }
         }
@@ -190,6 +193,13 @@ public class GUIShipPlacement extends JFrame implements ActionListener, IView {
             shipchoose.addItem(ships.get(i));
         }
         shipchoose.repaint();
+        
+        if(game.player.shipsPlaced){
+            btnNext.setEnabled(true);
+        }else{
+            btnNext.setEnabled(false);
+        }
+        
     }
 
     @Override
@@ -216,8 +226,9 @@ public class GUIShipPlacement extends JFrame implements ActionListener, IView {
     class StartEvent implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            reset.setEnabled(false);
-            next.setText("Wait");
+            btnReset.setEnabled(false);
+            btnNext.setText("Wait");
+            Engine.getEngine().pushAction(new EngineAction(22));
 
         }
     }

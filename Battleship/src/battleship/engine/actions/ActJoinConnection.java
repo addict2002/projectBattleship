@@ -33,6 +33,7 @@ public class ActJoinConnection extends ActionCounter implements IEngineAction{
             NetOponent netOponent=new NetOponent(engine.connection);
             netOponent.init();
             engine.oponent=netOponent;
+            engine.isHost=false;
             return true;
         }catch(Exception ex){
             return false;

@@ -16,6 +16,7 @@ import battleship.grid.Bomb;
 public class ActSendBombToOponent extends ActionCounter implements IEngineAction{
     Bomb bomb;
     public ActSendBombToOponent(Bomb abomb){
+        super("ActSendBombToOponent");
         bomb=abomb;
     }
     @Override

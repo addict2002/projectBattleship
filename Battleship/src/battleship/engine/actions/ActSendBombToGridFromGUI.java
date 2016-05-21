@@ -16,6 +16,7 @@ import battleship.grid.Bomb;
 public class ActSendBombToGridFromGUI extends ActionCounter implements IEngineAction {
     Bomb bomb;
     public ActSendBombToGridFromGUI(Bomb abomb){
+        super("ActSendBombToGridFromGUI");
         bomb=abomb;
     }
 

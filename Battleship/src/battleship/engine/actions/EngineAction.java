@@ -37,8 +37,17 @@ public class EngineAction extends ActionCounter implements IEngineAction{
             case 2://send ready to oponent
                 engine.oponent.sendReadyToOponent();
                 break;
+            case 22:
+                engine.game.player.setPlayerReady();
+                break;
             case 3://reset player
                 engine.game.player.initPlayer();
+                break;
+            case 4://connection is opened
+                engine.game.setConnectionOpened(true);
+                break;
+            case 88://reset Game
+                engine.game.reset();
                 break;
             case 99://error handle
                 engine.game.handleError(text);

@@ -6,6 +6,7 @@
 
 package battleship.net;
 
+import battleship.engine.Engine;
 import battleship.oponent.*;
 import java.io.IOException;
 import java.net.*;
@@ -32,6 +33,14 @@ public class Connection {
     public boolean isOnline(){
         return online;
     }
+    public synchronized void setOnline(boolean value){
+        online=value;
+        Engine engine=Engine.getEngine();
+        engine.game.setConnectionOpened(online);
+    }
+    public synchronized void setRunning(boolean value){
+        mrunning=value;
+    }
     public boolean isServer() {
         return misServer;
     }
@@ -44,7 +53,7 @@ public class Connection {
     
     Socket socket;
     InetAddress ip;
-    int port;
+    public int port;
 
     
     private Connection(int port){
@@ -91,6 +100,7 @@ public class Connection {
             return false;
         }
         this.mailbox.sendMessage(message);
+        
         return true;
     }
     

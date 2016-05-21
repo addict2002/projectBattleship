@@ -27,13 +27,21 @@ public class Grid {
     
     public BombReport receiveBomb(Bomb aBomb){
         BombReport report;
+        GridField afield=getField(aBomb.x, aBomb.y);
+        if(afield!=null){
+            report=afield.receiveBomb(aBomb);
+        }else{
+            report=new BombReport(aBomb);
+            report.bombOnShip=false;
+            report.gameOver=false;
+            report.shipDestroyed=false;
+        }
         
-        report=grid[aBomb.y][aBomb.x].receiveBomb(aBomb);
         return report;
     }
     
     public GridField getField(int x, int y){
-        if(y<grid.length && x<grid[0].length){
+        if(y>=0 && y<grid.length && x<grid[0].length && x>=0){
             return grid[y][x];
         }
         return null;

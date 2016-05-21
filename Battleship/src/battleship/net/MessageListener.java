@@ -37,14 +37,6 @@ public class MessageListener extends Thread {
             System.out.println("MessageListener started");
             while (!isInterrupted()) {
                 
-                // read from the stream  
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                byte buffer[] = new byte[1024];
-//                for(int s; (s=mIn.read(buffer)) != -1; )
-//                {
-//                  baos.write(buffer, 0, s);
-//                }
-//                byte result[] = baos.toByteArray();
                 Message message=null;
                 try{
                     message=(Message)mIn.readObject();

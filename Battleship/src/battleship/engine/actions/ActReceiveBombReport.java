@@ -17,6 +17,7 @@ public class ActReceiveBombReport extends ActionCounter implements IEngineAction
     BombReport report;
     
     public ActReceiveBombReport(BombReport areport){
+        super("ActReceiveBombReport");
         report=areport;
     }
     

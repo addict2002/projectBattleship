@@ -29,7 +29,7 @@ public class Client {
         aConnection.messageSender.start();
         aConnection.messageListener.start();
         
-        aConnection.online=true;
+        aConnection.setOnline(true);
         Runtime.getRuntime().addShutdownHook(
             new Thread() {
                 public void run() {

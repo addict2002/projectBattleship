@@ -8,8 +8,7 @@ package battleship.engine;
 
 import battleship.engine.actions.*;
 import battleship.grid.*;
-import battleship.gui.GUIShipPlacement;
-import battleship.gui.IView;
+import battleship.gui.*;
 import battleship.net.*;
 import battleship.oponent.*;
 import java.util.ArrayList;
@@ -25,21 +24,21 @@ public class Engine {
     private static Engine mengine;
     
     
-    public static void main(String[] args){
-        Engine engine=getEngine();
-        
-        engine.start();
-    }
-    
+       
     private GUIShipPlacement guiShipPlacement;
+    private GUIInitialize guiInit;
+    private GUIPlaying guiPlaying;
+    private GUIGameOver guiGameOver;
     private final ArrayList<IEngineAction> actionList=new ArrayList<>();
     public Game game;
+    public boolean isHost=false;
     public IOponent oponent;
     public Connection connection;
     public ArrayList<IView>  views;
     private Engine(){
-        game=Game.getTheGame();
         views=new ArrayList<>();
+        game=Game.getTheGame();
+        
     }
     public void start(){
         gameStateChanged();
@@ -56,13 +55,21 @@ public class Engine {
         while(true){
             try {
                 IEngineAction action=waitForNextAction();
-                if(action.execute()){
+                boolean success;
+                try{
+                    success=action.execute();
+                    
+                }catch(Exception ex){
+                    success=false;
+                    handleError("Could not execute action: Exception:"+ex.getMessage() +" | Name:" + action.getName()+"  |  Class: "+action.getClass());
+                }
+                if(success){
                     updateViews();
                 }else{
                     if(action.getCounter()<100){
                         pushAction(action);
                     }else{
-                        handleError("Can't execute action");
+                        handleError("Can't execute action: Name:" + action.getName()+"  | Class: "+action.getClass());
                     }
                 }
                 
@@ -87,24 +94,47 @@ public class Engine {
     public void gameStateChanged(){
         switch(game.getGameState()){
             case 0:
-                if(guiShipPlacement==null){
-                    guiShipPlacement=new GUIShipPlacement();
+//                if(guiShipPlacement==null){
+//                    guiShipPlacement=new GUIShipPlacement();
+//                }
+//                guiShipPlacement.guiGameState=0;
+//                addView(guiShipPlacement);
+                if(oponent!=null){
+//                    oponent=null;
                 }
-                guiShipPlacement.guiGameState=0;
-                addView(guiShipPlacement);
+                if(connection!=null){
+                    connection.interrupt();
+                    connection=null;
+                }
+                if(guiInit==null){
+                    guiInit=new GUIInitialize();
+                    addView(guiInit);
+                }
+                guiInit.guiGameState=0;
                 updateViews();
                 break;
             case 1:
                 if(guiShipPlacement==null){
                     guiShipPlacement=new GUIShipPlacement();
+                    addView(guiShipPlacement);
                 }
                 guiShipPlacement.guiGameState=1;
-                addView(guiShipPlacement);
                 updateViews();
                 break;
             case 2:
-                guiShipPlacement.setVisible(false);
-                removeView(guiShipPlacement);
+                if(guiPlaying==null){
+                    guiPlaying=new GUIPlaying();
+                    addView(guiPlaying);
+                }
+                updateViews();
+                
+                break;
+            case 3:
+                if(guiGameOver==null){
+                    guiGameOver=new GUIGameOver();
+                    addView(guiGameOver);
+                }
+                updateViews();
                 break;
             default:
                 

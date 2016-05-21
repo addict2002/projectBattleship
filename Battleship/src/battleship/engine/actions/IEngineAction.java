@@ -13,4 +13,5 @@ package battleship.engine.actions;
 public interface IEngineAction {
     public boolean execute();
     public int getCounter();
+    public String getName();
 }

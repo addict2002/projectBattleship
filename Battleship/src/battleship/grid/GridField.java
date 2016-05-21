@@ -13,6 +13,7 @@ package battleship.grid;
 public class GridField {
     public boolean hasShip=false;
     public boolean bombed=false;
+    public boolean mark=false;
     public Ship ship=null;
     
     public void setShip(Ship aShip){

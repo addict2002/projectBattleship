@@ -6,6 +6,9 @@
 
 package battleship;
 
+import battleship.engine.Engine;
+import static battleship.engine.Engine.getEngine;
+
 /**
  *
  * @author bruno
@@ -16,9 +19,9 @@ public class Battleship {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        //Some Change
-        //kljaLSKÖDJLKasd
+        Engine engine=getEngine();
+        
+        engine.start();
     }
     
 }

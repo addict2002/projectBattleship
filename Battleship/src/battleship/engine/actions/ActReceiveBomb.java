@@ -19,6 +19,7 @@ public class ActReceiveBomb extends ActionCounter implements IEngineAction{
     Bomb bomb;
     
     public ActReceiveBomb(Bomb aBomb){
+        super("ActReceiveBomb");
         bomb=aBomb;
     }
     

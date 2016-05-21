@@ -101,7 +101,7 @@ class NetworkService implements Runnable {
                 aConnection.messageSender.start();
                 aConnection.messageListener.start();
                 
-                aConnection.online=true;
+                aConnection.setOnline(true);
 //            }
         } catch (IOException ex) {
             System.out.println("--- Interrupt NetworkService-run");
